@@ -1,40 +1,36 @@
-﻿import ctypes.util
-import bgfx
-from ctypes import c_void_p
+﻿import bgfx
+from bgfx_ex import App
 import image
 
-width = 1280
-height = 720
-title = "pybgfx/examples/00-helloworld"
+class HelloWorld(App):
 
-glfw = ctypes.CDLL("glfw3")
-glfw.glfwGetWin32Window.restype = c_void_p
-glfw.glfwInit()
-window = glfw.glfwCreateWindow(width, height, title, 0, 0)
-glfw.glfwMakeContextCurrent(window)
-handle = glfw.glfwGetWin32Window(window)
+    def __init__(self, width, height, title):
+        self.width = width
+        self.height = height
+        self.title = title
 
-bgfx.set_platform_data(handle)
-bgfx.init(bgfx.BGFX_RENDERER_TYPE_COUNT, bgfx.BGFX_PCI_ID_NONE, 0, None, None)
-bgfx.reset(width, height, bgfx.BGFX_RESET_VSYNC)
-bgfx.set_debug(bgfx.BGFX_DEBUG_TEXT)
-bgfx.set_view_clear(0, bgfx.BGFX_CLEAR_COLOR | bgfx.BGFX_CLEAR_DEPTH, 0x303030ff, 1.0, 0)
+    def init(self):
+        bgfx.init(bgfx.BGFX_RENDERER_TYPE_COUNT, bgfx.BGFX_PCI_ID_NONE, 0, None, None)
+        bgfx.reset(self.width, self.height, bgfx.BGFX_RESET_VSYNC)
+        bgfx.set_debug(bgfx.BGFX_DEBUG_TEXT)
+        bgfx.set_view_clear(0, bgfx.BGFX_CLEAR_COLOR | bgfx.BGFX_CLEAR_DEPTH, 0x303030ff, 1.0, 0)
 
-while not glfw.glfwWindowShouldClose(window):
-	glfw.glfwPollEvents()
+    def shutdown(self):
+        pass
 
-	bgfx.set_view_rect(0, 0, 0, width, height)
-	bgfx.touch(0)
-	bgfx.dbg_text_clear(0, False)
-	bgfx.bgfx_dbg_text_image(max(width/2/8, 20)-20,
-		max(height/2/16, 6)-6,
-		40,
-		12,
-		image.s_logo,
-		160)
-	bgfx.dbg_text_printf(0, 1, 0x4f, title)
-	bgfx.dbg_text_printf(0, 2, 0x6f, "Description: Initialization and debug text.");
-	bgfx.frame()
+    def update(self):
+        bgfx.set_view_rect(0, 0, 0, self.width, self.height)
+        bgfx.touch(0)
+        bgfx.dbg_text_clear(0, False)
+        bgfx.bgfx_dbg_text_image(max(self.width/2/8, 20)-20,
+            max(self.height/2/16, 6)-6,
+            40,
+            12,
+            image.s_logo,
+            160)
+        bgfx.dbg_text_printf(0, 1, 0x4f, self.title)
+        bgfx.dbg_text_printf(0, 2, 0x6f, "Description: Initialization and debug text.");
+        bgfx.frame()
 
-bgfx.shutdown()
-glfw.glfwTerminate()
+app = HelloWorld(1280, 720, "pybgfx/examples/00-helloworld")
+app.run()
