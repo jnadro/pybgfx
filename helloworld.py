@@ -16,7 +16,7 @@ class HelloWorld(App):
         bgfx.set_view_clear(0, bgfx.BGFX_CLEAR_COLOR | bgfx.BGFX_CLEAR_DEPTH, 0x303030ff, 1.0, 0)
 
     def shutdown(self):
-        pass
+        bgfx.shutdown()
 
     def update(self):
         bgfx.set_view_rect(0, 0, 0, self.width, self.height)
