@@ -3,9 +3,10 @@ pybgfx
 
 pybgfx provides python bindings for [bgfx](https://github.com/bkaradzic/bgfx).  It uses no dependencies other than [ctypes](https://docs.python.org/2/library/ctypes.html) for Python.
 
-Look how easy it is to use:
+Hello World:
 
 <img align="left" src="https://github.com/jnadro/pybgfx/blob/master/helloworld.png">
+
 
 Functions Implemented
 ---------------------
