@@ -1,10 +1,3 @@
-<OWNER> = Jason Nadro
-<YEAR> = 2016
-
-In the original BSD license, both occurrences of the phrase "COPYRIGHT HOLDERS AND CONTRIBUTORS" in the disclaimer read "REGENTS AND CONTRIBUTORS".
-
-Here is the license template:
-
 Copyright (c) 2016, Jason Nadro
 All rights reserved.
 
