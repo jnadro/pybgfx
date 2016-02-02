@@ -5,9 +5,7 @@ pybgfx provides python bindings for [bgfx](https://github.com/bkaradzic/bgfx).  
 
 Look how easy it is to use:
 
-    import project
-    # Get your stuff done
-    project.do_stuff()
+<img align="left" src="example.png">
 
 Functions Implemented
 ---------------------
