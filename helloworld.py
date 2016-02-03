@@ -1,6 +1,6 @@
 ﻿import bgfx
 from bgfx_ex import App
-import image
+import logo
 
 class HelloWorld(App):
 
@@ -26,7 +26,7 @@ class HelloWorld(App):
             max(self.height/2/16, 6)-6,
             40,
             12,
-            image.s_logo,
+            logo.s_logo,
             160)
         bgfx.dbg_text_printf(0, 1, 0x4f, self.title)
         bgfx.dbg_text_printf(0, 2, 0x6f, "Description: Initialization and debug text.");
