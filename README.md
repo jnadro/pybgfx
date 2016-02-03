@@ -57,7 +57,7 @@ TODO
 Contribute
 ----------
 
-- Source Code: github.com/jnadro/pybgfx
+- Source Code: [github.com/jnadro/pybgfx](github.com/jnadro/pybgfx)
 
 Support
 -------
