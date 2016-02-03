@@ -1,6 +1,6 @@
 ﻿import bgfx
 from bgfx_ex import App
-import logo
+import python_image
 
 class HelloWorld(App):
 
@@ -23,11 +23,11 @@ class HelloWorld(App):
         bgfx.touch(0)
         bgfx.dbg_text_clear(0, False)
         bgfx.bgfx_dbg_text_image(max(self.width/2/8, 20)-20,
-            max(self.height/2/16, 6)-6,
+            max(self.height/2/16, 6)-12,
             40,
-            12,
-            logo.s_logo,
-            160)
+            27,
+            python_image.s_python_logo,
+            80)
         bgfx.dbg_text_printf(0, 1, 0x4f, self.title)
         bgfx.dbg_text_printf(0, 2, 0x6f, "Description: Initialization and debug text.");
         bgfx.frame()
