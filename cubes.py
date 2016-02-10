@@ -5,6 +5,7 @@ import bgfxdefines
 import bgfx_utils
 from bgfx_ex import App
 
+
 class PosColorVertex(Structure):
     _fields_ = [("m_x", c_float),
                 ("m_y", c_float),
@@ -14,29 +15,30 @@ class PosColorVertex(Structure):
 num_vertices = 8
 s_cubeVertices = (PosColorVertex * num_vertices)(
     PosColorVertex(-1.0,  1.0,  1.0, 0xff000000),
-    PosColorVertex( 1.0,  1.0,  1.0, 0xff0000ff),
+    PosColorVertex(1.0,  1.0,  1.0, 0xff0000ff),
     PosColorVertex(-1.0, -1.0,  1.0, 0xff00ff00),
-    PosColorVertex( 1.0, -1.0,  1.0, 0xff00ffff),
+    PosColorVertex(1.0, -1.0,  1.0, 0xff00ffff),
     PosColorVertex(-1.0,  1.0, -1.0, 0xffff0000),
-    PosColorVertex( 1.0,  1.0, -1.0, 0xffff00ff),
+    PosColorVertex(1.0,  1.0, -1.0, 0xffff00ff),
     PosColorVertex(-1.0, -1.0, -1.0, 0xffffff00),
-    PosColorVertex( 1.0, -1.0, -1.0, 0xffffffff),
-    )
+    PosColorVertex(1.0, -1.0, -1.0, 0xffffffff),
+)
 
 num_indices = 36
 s_cubeIndices = (c_uint16 * num_indices)(
-    *[  0, 1, 2, # 0
+    *[0, 1, 2,  # 0
         1, 3, 2,
-        4, 6, 5, # 2
+        4, 6, 5,  # 2
         5, 6, 7,
-        0, 2, 4, # 4
+        0, 2, 4,  # 4
         4, 2, 6,
-        1, 5, 3, # 6
+        1, 5, 3,  # 6
         5, 7, 3,
-        0, 4, 1, # 8
+        0, 4, 1,  # 8
         4, 5, 1,
-        2, 3, 6, # 10
+        2, 3, 6,  # 10
         6, 3, 7])
+
 
 class Cubes(App):
 
@@ -47,30 +49,37 @@ class Cubes(App):
 
         self.m_ibh = None
 
-    def init(self): 
-        bgfx.init(bgfx.BGFX_RENDERER_TYPE_COUNT, bgfx.BGFX_PCI_ID_NONE, 0, None, None) 
-        bgfx.reset(self.width, self.height, bgfx.BGFX_RESET_VSYNC) 
-        
+    def init(self):
+        bgfx.init(bgfx.BGFX_RENDERER_TYPE_COUNT,
+                  bgfx.BGFX_PCI_ID_NONE, 0, None, None)
+        bgfx.reset(self.width, self.height, bgfx.BGFX_RESET_VSYNC)
+
         # Enable debug text.
         bgfx.set_debug(bgfx.BGFX_DEBUG_TEXT)
 
         # Set view 0 clear state.
-        bgfx.set_view_clear(0, bgfx.BGFX_CLEAR_COLOR | bgfx.BGFX_CLEAR_DEPTH, 0x303030ff, 1.0, 0) 
+        bgfx.set_view_clear(0, bgfx.BGFX_CLEAR_COLOR |
+                            bgfx.BGFX_CLEAR_DEPTH, 0x303030ff, 1.0, 0)
 
         # Create vertex stream declaration.
         rendererType = bgfx.get_renderer_type()
         self.ms_decl = bgfx.vertex_decl()
         bgfx.vertex_decl_begin(byref(self.ms_decl), rendererType)
-        bgfx.vertex_decl_add(self.ms_decl, bgfx.BGFX_ATTRIB_POSITION, 3, bgfx.BGFX_ATTRIB_TYPE_FLOAT, False, False)
-        bgfx.vertex_decl_add(self.ms_decl, bgfx.BGFX_ATTRIB_COLOR0, 4, bgfx.BGFX_ATTRIB_TYPE_UINT8, True, False)
+        bgfx.vertex_decl_add(self.ms_decl, bgfx.BGFX_ATTRIB_POSITION,
+                             3, bgfx.BGFX_ATTRIB_TYPE_FLOAT, False, False)
+        bgfx.vertex_decl_add(self.ms_decl, bgfx.BGFX_ATTRIB_COLOR0,
+                             4, bgfx.BGFX_ATTRIB_TYPE_UINT8, True, False)
         bgfx.vertex_decl_end(self.ms_decl)
 
         # Create static vertex buffer
-        vb_memory = bgfx.copy(cast(s_cubeVertices, c_void_p), sizeof(PosColorVertex) * num_vertices)
-        self.m_vbh = bgfx.create_vertex_buffer(vb_memory, byref(self.ms_decl), bgfx.BGFX_BUFFER_NONE)
+        vb_memory = bgfx.copy(cast(s_cubeVertices, c_void_p),
+                              sizeof(PosColorVertex) * num_vertices)
+        self.m_vbh = bgfx.create_vertex_buffer(
+            vb_memory, byref(self.ms_decl), bgfx.BGFX_BUFFER_NONE)
 
         # Create static index buffer
-        ib_memory = bgfx.copy(cast(s_cubeIndices, c_void_p), sizeof(c_uint16) * num_indices)
+        ib_memory = bgfx.copy(cast(s_cubeIndices, c_void_p),
+                              sizeof(c_uint16) * num_indices)
         self.m_ibh = bgfx.create_index_buffer(ib_memory, bgfx.BGFX_BUFFER_NONE)
 
         # Create program from shaders.
@@ -84,9 +93,10 @@ class Cubes(App):
         bgfx.shutdown()
 
     def update(self):
-        bgfx.dbg_text_clear();
-        bgfx.dbg_text_printf(0, 1, 0x4f, "bgfx/examples/01-cube");
-        bgfx.dbg_text_printf(0, 2, 0x6f, "Description: Rendering simple static mesh.");
+        bgfx.dbg_text_clear()
+        bgfx.dbg_text_printf(0, 1, 0x4f, "bgfx/examples/01-cube")
+        bgfx.dbg_text_printf(
+            0, 2, 0x6f, "Description: Rendering simple static mesh.")
 
         # Set view 0 default viewport.
         bgfx.set_view_rect(0, 0, 0, self.width, self.height)
@@ -102,7 +112,6 @@ class Cubes(App):
                 bgfx.set_index_buffer(self.m_ibh, 0, num_indices)
 
                 bgfx.set_state(bgfxdefines.BGFX_STATE_DEFAULT, 0)
-
 
         # Advance to next frame. Rendering thread will be kicked to
         # process submitted rendering primitives.
