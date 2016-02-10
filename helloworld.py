@@ -22,7 +22,7 @@ class HelloWorld(App):
         bgfx.set_view_rect(0, 0, 0, self.width, self.height)
         bgfx.touch(0)
         bgfx.dbg_text_clear(0, False)
-        bgfx.bgfx_dbg_text_image(max(self.width/2/8, 20)-20,
+        bgfx.dbg_text_image(max(self.width/2/8, 20)-20,
             max(self.height/2/16, 6)-12,
             40,
             27,
