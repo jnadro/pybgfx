@@ -19,7 +19,7 @@ Here are a list of the bgfx examples that have been ported to pybgfx.
 
 Here are a list of the bgfx functions that have bindings that have been tested.
 
-12 / 130 ~9%
+13 / 130 ~10%
 
 * init
 * shutdown

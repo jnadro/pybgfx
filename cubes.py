@@ -113,6 +113,8 @@ class Cubes(App):
 
                 bgfx.set_state(bgfxdefines.BGFX_STATE_DEFAULT, 0)
 
+                bgfx.submit(0, self.program, 0)
+
         # Advance to next frame. Rendering thread will be kicked to
         # process submitted rendering primitives.
         bgfx.frame()
