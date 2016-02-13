@@ -19,7 +19,7 @@ Here are a list of the bgfx examples that have been ported to pybgfx.
 
 Here are a list of the bgfx functions that have bindings that have been tested.
 
-13 / 130 ~10%
+17 / 130 ~13%
 
 * init
 * shutdown
@@ -27,12 +27,17 @@ Here are a list of the bgfx functions that have bindings that have been tested.
 * set_debug
 * set_view_clear
 * set_view_rect
+* set_view_transform
 * touch
+* submit
 * dbg_text_clear
 * dbg_text_image
 * dbg_text_printf
 * frame
 * set_platform_data
+* vertex_decl_begin
+* vertex_decl_add
+* vertex_decl_skip
 
 Todo
 ----
