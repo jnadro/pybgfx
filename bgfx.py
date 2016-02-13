@@ -189,6 +189,7 @@ create_program = _bind("bgfx_create_program", [
                        bgfx_shader_handle, bgfx_shader_handle, c_bool], bgfx_program_handle)
 destroy_program = _bind("bgfx_destroy_program", [bgfx_program_handle])
 set_state = _bind("bgfx_set_state", [c_uint64, c_uint32])
+set_transform = _bind("bgfx_set_transform", [c_void_p, c_uint16], c_uint32)
 set_index_buffer = _bind("bgfx_set_index_buffer", [
                          bgfx_index_buffer_handle, c_uint32, c_uint32])
 set_vertex_buffer = _bind("bgfx_set_vertex_buffer", [
@@ -196,6 +197,8 @@ set_vertex_buffer = _bind("bgfx_set_vertex_buffer", [
 set_view_rect = _bind("bgfx_set_view_rect")
 set_view_clear = _bind("bgfx_set_view_clear", [
                        c_uint8, c_uint16, c_uint32, c_float, c_uint8])
+set_view_transform = _bind("bgfx_set_view_transform", [
+                           c_uint8, c_void_p, c_void_p])
 touch = _bind("bgfx_touch")
 submit = _bind("bgfx_submit", [c_uint8, bgfx_program_handle, c_int], c_uint32)
 

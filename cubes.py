@@ -93,10 +93,24 @@ class Cubes(App):
         bgfx.shutdown()
 
     def update(self):
-        bgfx.dbg_text_clear()
-        bgfx.dbg_text_printf(0, 1, 0x4f, "bgfx/examples/01-cube")
-        bgfx.dbg_text_printf(
-            0, 2, 0x6f, "Description: Rendering simple static mesh.")
+        #bgfx.dbg_text_clear()
+        #bgfx.dbg_text_printf(0, 1, 0x4f, "bgfx/examples/01-cube")
+        #bgfx.dbg_text_printf(
+        #    0, 2, 0x6f, "Description: Rendering simple static mesh.")
+
+        at = (c_float * 3)(*[0.0, 0.0, 0.0])
+        eye = (c_float * 3)(*[0.0, 0.0, -35.0])
+
+        view = (c_float * 16)(*[1.0, 0.0, 0.0, 0.0,
+                                0.0, 1.0, 0.0, 0.0,
+                                0.0, 0.0, 1.0, 0.0,
+                                -0.0, -0.0, 35.0, 1.0])
+        proj = (c_float * 16)(*[0.974278629, 0.0, 0.0, 0.0,
+                                0.0, 1.73205090, 0.0, 0.0,
+                                0.0, -0.0, 1.00100100, 1.0,
+                                0.0, 0.0, -0.100100100, 0.0])
+
+        bgfx.set_view_transform(0, view, proj)
 
         # Set view 0 default viewport.
         bgfx.set_view_rect(0, 0, 0, self.width, self.height)
@@ -107,6 +121,13 @@ class Cubes(App):
 
         for yy in xrange(11):
             for xx in xrange(11):
+
+                mtx = (c_float * 16)(*[1.0, 0.0, 0.0, 0.0,
+                                       0.0, 1.0, 0.0, 0.0,
+                                       0.0, 0.0, 1.0, 0.0,
+                                       -15.0 + xx*3.0, -15.0 + yy*3.0, 0.0, 1.0])
+                bgfx.set_transform(mtx, 1)
+
                 # Set vertex and index buffer.
                 bgfx.set_vertex_buffer(self.m_vbh, 0, num_vertices)
                 bgfx.set_index_buffer(self.m_ibh, 0, num_indices)
