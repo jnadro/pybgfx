@@ -101,13 +101,15 @@ class Cubes(App):
         if self.last == None:
             self.last = now
 
+        frame_time = now - self.last
         elapsed_time = now - self.time_offset;
         self.last = now
 
-        bgfx.dbg_text_clear()
-        #bgfx.dbg_text_printf(0, 1, 0x4f, "bgfx/examples/01-cube")
-        #bgfx.dbg_text_printf(
-        #    0, 2, 0x6f, "Description: Rendering simple static mesh.")
+        bgfx.dbg_text_clear(0, False)
+        bgfx.dbg_text_printf(0, 1, 0x4f, "bgfx/examples/01-cube")
+        bgfx.dbg_text_printf(
+            0, 2, 0x6f, "Description: Rendering simple static mesh.")
+        bgfx.dbg_text_printf(0, 3, 0x0f, "Frame: %.3f [ms]" % (frame_time * 1000))
 
         at = (c_float * 3)(*[0.0, 0.0, 0.0])
         eye = (c_float * 3)(*[0.0, 0.0, -35.0])
