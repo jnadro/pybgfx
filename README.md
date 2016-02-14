@@ -56,6 +56,7 @@ Here are a list of the bgfx functions that have bindings that have been tested.
 Todo
 ----
 
+* Cleanup respository (too many things in root directory)
 * Write a tutorial
 * Installation instructions
 * Implement the rest of the bgfx Examples
