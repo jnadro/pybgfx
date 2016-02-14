@@ -106,7 +106,7 @@ class Cubes(App):
         self.last = now
 
         bgfx.dbg_text_clear(0, False)
-        bgfx.dbg_text_printf(0, 1, 0x4f, "bgfx/examples/01-cube")
+        bgfx.dbg_text_printf(0, 1, 0x4f, "pybgfx/examples/01-cube")
         bgfx.dbg_text_printf(
             0, 2, 0x6f, "Description: Rendering simple static mesh.")
         bgfx.dbg_text_printf(0, 3, 0x0f, "Frame: %.3f [ms]" % (frame_time * 1000))
