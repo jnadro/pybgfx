@@ -1,4 +1,5 @@
 import ctypes
+import time
 
 import bgfx
 
@@ -14,7 +15,7 @@ class App(object):
     def shutdown(self):
         pass
 
-    def update(self):
+    def update(self, dt):
         pass
 
     def run(self):
@@ -30,9 +31,19 @@ class App(object):
 
         self.init()
 
+        last_time = None
+
         while not glfw.glfwWindowShouldClose(window):
             glfw.glfwPollEvents()
-            self.update()
+
+            now = time.time()
+            if last_time == None:
+                last_time = now
+
+            frame_time = now - last_time
+            last_time = now
+
+            self.update(frame_time)
 
         self.shutdown()
         glfw.glfwTerminate()

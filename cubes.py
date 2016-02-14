@@ -86,8 +86,7 @@ class Cubes(App):
 
         # Create program from shaders.
         self.program = bgfx_utils.loadProgram("vs_cubes", "fs_cubes")
-        self.last = None
-        self.time_offset = time.time()
+        self.elapsed_time = 0
 
     def shutdown(self):
         # cleanup
@@ -96,20 +95,14 @@ class Cubes(App):
         bgfx.destroy_program(self.program)
         bgfx.shutdown()
 
-    def update(self):
-        now = time.time()
-        if self.last == None:
-            self.last = now
-
-        frame_time = now - self.last
-        elapsed_time = now - self.time_offset;
-        self.last = now
+    def update(self, dt):
+        self.elapsed_time += dt;
 
         bgfx.dbg_text_clear(0, False)
         bgfx.dbg_text_printf(0, 1, 0x4f, "pybgfx/examples/01-cube")
         bgfx.dbg_text_printf(
             0, 2, 0x6f, "Description: Rendering simple static mesh.")
-        bgfx.dbg_text_printf(0, 3, 0x0f, "Frame: %.3f [ms]" % (frame_time * 1000))
+        bgfx.dbg_text_printf(0, 3, 0x0f, "Frame: %.3f [ms]" % (dt * 1000))
 
         at = (c_float * 3)(*[0.0, 0.0, 0.0])
         eye = (c_float * 3)(*[0.0, 0.0, -35.0])
@@ -139,7 +132,7 @@ class Cubes(App):
                                        0.0, 1.0, 0.0, 0.0,
                                        0.0, 0.0, 1.0, 0.0,
                                        0.0, 0.0, 0.0, 1.0])
-                matrix.rotate_xy(mtx, elapsed_time + xx*0.21, elapsed_time + yy*0.37)
+                matrix.rotate_xy(mtx, self.elapsed_time + xx*0.21, self.elapsed_time + yy*0.37)
                 mtx[12] = -15.0 + xx*3.0
                 mtx[13] = -15.0 + yy*3.0
                 mtx[14] = 0.0

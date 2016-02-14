@@ -21,7 +21,7 @@ class HelloWorld(App):
     def shutdown(self):
         bgfx.shutdown()
 
-    def update(self):
+    def update(self, dt):
         bgfx.set_view_rect(0, 0, 0, self.width, self.height)
         bgfx.touch(0)
         bgfx.dbg_text_clear(0, False)
