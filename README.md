@@ -13,31 +13,45 @@ Functions Implemented
 
 Here are a list of the bgfx examples that have been ported to pybgfx.
 
-1 / 28
+2 / 28
 
 * 00-helloworld
+* 01-cubes
 
 Here are a list of the bgfx functions that have bindings that have been tested.
 
-17 / 130 ~13%
+30 / 130 ~23%
 
-* init
-* shutdown
-* reset
-* set_debug
-* set_view_clear
-* set_view_rect
-* set_view_transform
-* touch
-* submit
-* dbg_text_clear
-* dbg_text_image
-* dbg_text_printf
-* frame
-* set_platform_data
 * vertex_decl_begin
 * vertex_decl_add
 * vertex_decl_skip
+* vertex_decl_end
+* init
+* shutdown
+* reset
+* frame
+* alloc
+* copy
+* get_renderer_type
+* set_debug
+* dbg_text_clear
+* dbg_text_printf
+* dbg_text_image
+* create_index_buffer
+* destroy_index_buffer
+* create_shader
+* create_program
+* destroy_program
+* set_state
+* set_transform
+* set_index_buffer
+* set_vertex_buffer
+* set_view_rect
+* set_view_clear
+* set_view_transform
+* touch
+* submit
+* set_platform_data
 
 Todo
 ----
