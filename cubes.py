@@ -1,9 +1,11 @@
 ﻿from ctypes import Structure, c_float, c_int, c_uint8, c_uint16, c_uint32, c_uint64, POINTER, byref, cast, sizeof, c_void_p, byref
+import time
 
 import bgfx
 import bgfxdefines
 import bgfx_utils
 from bgfx_ex import App
+import matrix
 
 
 class PosColorVertex(Structure):
@@ -84,6 +86,8 @@ class Cubes(App):
 
         # Create program from shaders.
         self.program = bgfx_utils.loadProgram("vs_cubes", "fs_cubes")
+        self.last = None
+        self.time_offset = time.time()
 
     def shutdown(self):
         # cleanup
@@ -93,7 +97,14 @@ class Cubes(App):
         bgfx.shutdown()
 
     def update(self):
-        #bgfx.dbg_text_clear()
+        now = time.time()
+        if self.last == None:
+            self.last = now
+
+        elapsed_time = now - self.time_offset;
+        self.last = now
+
+        bgfx.dbg_text_clear()
         #bgfx.dbg_text_printf(0, 1, 0x4f, "bgfx/examples/01-cube")
         #bgfx.dbg_text_printf(
         #    0, 2, 0x6f, "Description: Rendering simple static mesh.")
@@ -125,7 +136,11 @@ class Cubes(App):
                 mtx = (c_float * 16)(*[1.0, 0.0, 0.0, 0.0,
                                        0.0, 1.0, 0.0, 0.0,
                                        0.0, 0.0, 1.0, 0.0,
-                                       -15.0 + xx*3.0, -15.0 + yy*3.0, 0.0, 1.0])
+                                       0.0, 0.0, 0.0, 1.0])
+                matrix.rotate_xy(mtx, elapsed_time + xx*0.21, elapsed_time + yy*0.37)
+                mtx[12] = -15.0 + xx*3.0
+                mtx[13] = -15.0 + yy*3.0
+                mtx[14] = 0.0
                 bgfx.set_transform(mtx, 1)
 
                 # Set vertex and index buffer.
