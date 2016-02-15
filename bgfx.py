@@ -13,7 +13,7 @@ __status__ = "Development"
 
 import ctypes
 from ctypes import Structure, POINTER, cast, byref
-from ctypes import c_bool, c_int, c_uint8, c_uint16, c_uint32, c_uint64, c_float, c_void_p
+from ctypes import c_bool, c_int, c_uint8, c_uint16, c_uint32, c_uint64, c_float, c_char_p, c_void_p
 import os
 
 _bgfx = ctypes.CDLL("bgfx-shared-lib")
@@ -62,12 +62,30 @@ BGFX_ATTRIB_TYPE_HALF = 3
 BGFX_ATTRIB_TYPE_FLOAT = 4
 BGFX_ATTRIB_TYPE_COUNT = 5
 
+# bgfx_uniform_type
+BGFX_UNIFORM_TYPE_INT1 = 0
+BGFX_UNIFORM_TYPE_END = 1
+
+BGFX_UNIFORM_TYPE_VEC4 = 2
+BGFX_UNIFORM_TYPE_MAT3 = 3
+BGFX_UNIFORM_TYPE_MAT4 = 4
+
+BGFX_UNIFORM_TYPE_COUNT = 5
+
 
 class vertex_decl(Structure):
     _fields_ = [("hash", c_uint32),
                 ("stride", c_uint16),
                 ("offset", c_uint16 * BGFX_ATTRIB_COUNT),
                 ("attributes", c_uint16 * BGFX_ATTRIB_COUNT)]
+
+
+class transient_index_buffer(Structure):
+    pass
+
+
+class transient_vertex_buffer(Structure):
+    pass 
 
 BGFX_PCI_ID_NONE = 0x0000
 BGFX_PCI_ID_SOFTWARE_RASTERIZER = 0x0001
@@ -146,6 +164,10 @@ class bgfx_shader_handle(Structure):
     _fields_ = [("idx", c_uint16)]
 
 
+class bgfx_uniform_handle(Structure):
+    _fields_ = [("idx", c_uint16)]
+
+
 class bgfx_memory(Structure):
     _fields_ = [("data", POINTER(c_uint8)),
                 ("size", c_uint32)]
@@ -183,13 +205,17 @@ destroy_index_buffer = _bind("bgfx_destroy_index_buffer", [
 create_vertex_buffer = _bind("bgfx_create_vertex_buffer", [POINTER(
     bgfx_memory), POINTER(vertex_decl), c_uint16], bgfx_vertex_buffer_handle)
 destroy_vertex_buffer = _bind("bgfx_destroy_vertex_buffer", [])
+alloc_transient_buffers = _bind("bgfx_alloc_transient_buffers", [])
 create_shader = _bind("bgfx_create_shader", [
                       POINTER(bgfx_memory)], bgfx_shader_handle)
 create_program = _bind("bgfx_create_program", [
                        bgfx_shader_handle, bgfx_shader_handle, c_bool], bgfx_program_handle)
 destroy_program = _bind("bgfx_destroy_program", [bgfx_program_handle])
+create_uniform = _bind("bgfx_create_uniform", [c_char_p, c_uint32, c_uint16], bgfx_uniform_handle)
+destroy_uniform = _bind("bgfx_destroy_uniform", [bgfx_uniform_handle])
 set_state = _bind("bgfx_set_state", [c_uint64, c_uint32])
 set_transform = _bind("bgfx_set_transform", [c_void_p, c_uint16], c_uint32)
+set_uniform = _bind("bgfx_set_uniform", [bgfx_uniform_handle, c_void_p, c_uint16])
 set_index_buffer = _bind("bgfx_set_index_buffer", [
                          bgfx_index_buffer_handle, c_uint32, c_uint32])
 set_vertex_buffer = _bind("bgfx_set_vertex_buffer", [

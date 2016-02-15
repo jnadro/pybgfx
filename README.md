@@ -13,14 +13,15 @@ Functions Implemented
 
 Here are a list of the bgfx examples that have been ported to pybgfx.
 
-2 / 28
+3 / 28
 
 * 00-helloworld
 * 01-cubes
+* 03-raymarch
 
 Here are a list of the bgfx functions that have bindings that have been tested.
 
-30 / 130 ~23%
+32 / 130 ~23%
 
 * vertex_decl_begin
 * vertex_decl_add
@@ -42,6 +43,8 @@ Here are a list of the bgfx functions that have bindings that have been tested.
 * create_shader
 * create_program
 * destroy_program
+* create_uniform
+* destroy_uniform
 * set_state
 * set_transform
 * set_index_buffer
