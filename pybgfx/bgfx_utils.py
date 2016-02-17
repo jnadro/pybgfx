@@ -4,7 +4,7 @@ from ctypes import cast, c_void_p
 
 import bgfx
 
-runtimeDir = "runtime/"
+runtimeDir = "../runtime/"
 
 
 def loadMem(filePath):

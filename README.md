@@ -3,6 +3,8 @@ pybgfx
 
 pybgfx provides python bindings for [bgfx](https://github.com/bkaradzic/bgfx).  It uses no dependencies other than [ctypes](https://docs.python.org/2/library/ctypes.html) for Python.
 
+[PyPI](https://pypi.python.org/pypi/pybgfx)
+
 Hello World:
 
 <img align="left" src="https://github.com/jnadro/pybgfx/blob/master/helloworld.png">
@@ -81,6 +83,16 @@ Contribute
 ----------
 
 - Source Code: [github.com/jnadro/pybgfx](github.com/jnadro/pybgfx)
+
+Deployment
+----------
+
+Requirements: pip install twine
+
+1. Clean **pybgfx.egg-info**, **dist**, and **build** directories.
+2. Bump version in setup.py
+3. python setup.py sdist
+4. twine upload dist/*
 
 Support
 -------

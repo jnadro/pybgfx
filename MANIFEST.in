@@ -1,0 +1,3 @@
+include pybgfx/bgfx-shared-lib.dll
+include pybgfx/glfw3.dll
+include pybgfx/renderdoc.dll

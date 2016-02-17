@@ -15,7 +15,7 @@ class PosColorTexCoord0Vertex(Structure):
                 ("m_v", c_float)]
 
 def render_screen_space_quad(view, program, x, y, width, height):
-    tvb 
+    pass 
 
 class Raymarch(App):
 

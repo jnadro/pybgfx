@@ -1,7 +1,8 @@
 import ctypes
 import time
+import os
 
-import bgfx
+import pybgfx
 
 
 class App(object):
@@ -19,7 +20,8 @@ class App(object):
         pass
 
     def run(self):
-        glfw = ctypes.CDLL("glfw3")
+        glfw_dll_path = os.path.dirname(__file__) + "\\glfw3"
+        glfw = ctypes.CDLL(glfw_dll_path)
         glfw.glfwGetWin32Window.restype = ctypes.c_void_p
 
         glfw.glfwInit()
@@ -27,7 +29,7 @@ class App(object):
             self.width, self.height, self.title, 0, 0)
         glfw.glfwMakeContextCurrent(window)
         handle = glfw.glfwGetWin32Window(window)
-        bgfx.set_platform_data(handle)
+        pybgfx.bgfx.set_platform_data(handle)
 
         self.init()
 

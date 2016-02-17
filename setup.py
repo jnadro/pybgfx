@@ -11,21 +11,21 @@ from setuptools import setup, find_packages
 from codecs import open
 from os import path
 
-here = path.abspath(path.dirname(__file__))
+# here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
-with open(path.join(here, "README.md"), encoding="utf-8") as f:
-    long_description = f.read()
+# with open(path.join(here, "README.md"), encoding="utf-8") as f:
+#    long_description = f.read()
 
 setup(
     name="pybgfx",
 
     # Version scheme: 
     # https://python-packaging-user-guide.readthedocs.org/en/latest/distributing/#choosing-a-versioning-scheme
-    version="1.0.0.dev1",
+    version="1.0.1.dev4",
 
     description="Python bindings for bgfx.",
-    long_description=long_description,
+    # long_description=long_description,
 
     url="https://github.com/jnadro/pybgfx",
 
@@ -37,19 +37,16 @@ setup(
         # How mature is this project?
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
-        "License :: OSI Approved :: BSD 2-clause",
+        "License :: OSI Approved :: BSD License",
         "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: Implementation :: CPython"
+        "Programming Language :: Python :: Implementation :: CPython",
         "Operating System :: Microsoft :: Windows",
         "Topic :: Multimedia :: Graphics :: 3D Rendering"
     ],
 
     keywords="graphics, bgfx, opengl, directx",
 
-    package_data={
-        # I'm not sure if this will work or is proper, but I am packing
-        # Windows specific dlls so pybgfx can find them without the user
-        # building them.
-        "pybgfx": ["bgfx-shared-lib.dll", "glfw3.dll", "renderdoc.dll"]
-    },
+    packages=["pybgfx"],
+
+    include_package_data=True
 )
