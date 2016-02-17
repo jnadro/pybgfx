@@ -77,7 +77,11 @@ TODO
 Installation
 ------------
 
-TODO
+Currently only works for Windows 64-bit.
+
+```
+pip install pybgfx
+```
 
 Contribute
 ----------
