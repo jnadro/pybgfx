@@ -13,14 +13,6 @@ Hello World:
 Functions Implemented
 ---------------------
 
-Here are a list of the bgfx examples that have been ported to pybgfx.
-
-3 / 28
-
-* 00-helloworld
-* 01-cubes
-* 03-raymarch
-
 Here are a list of the bgfx functions that have bindings that have been tested.
 
 32 / 130 ~23%
