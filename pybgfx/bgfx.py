@@ -73,21 +73,6 @@ BGFX_UNIFORM_TYPE_MAT4 = 4
 
 BGFX_UNIFORM_TYPE_COUNT = 5
 
-
-class vertex_decl(Structure):
-    _fields_ = [("hash", c_uint32),
-                ("stride", c_uint16),
-                ("offset", c_uint16 * BGFX_ATTRIB_COUNT),
-                ("attributes", c_uint16 * BGFX_ATTRIB_COUNT)]
-
-
-class transient_index_buffer(Structure):
-    pass
-
-
-class transient_vertex_buffer(Structure):
-    pass 
-
 BGFX_PCI_ID_NONE = 0x0000
 BGFX_PCI_ID_SOFTWARE_RASTERIZER = 0x0001
 BGFX_PCI_ID_AMD = 0x1002
@@ -169,9 +154,36 @@ class bgfx_uniform_handle(Structure):
     _fields_ = [("idx", c_uint16)]
 
 
+class bgfx_vertex_decl_handle(Structure):
+    _fields_ = [("idx", c_uint16)]
+
+
 class bgfx_memory(Structure):
     _fields_ = [("data", POINTER(c_uint8)),
                 ("size", c_uint32)]
+
+
+class vertex_decl(Structure):
+    _fields_ = [("hash", c_uint32),
+                ("stride", c_uint16),
+                ("offset", c_uint16 * BGFX_ATTRIB_COUNT),
+                ("attributes", c_uint16 * BGFX_ATTRIB_COUNT)]
+
+
+class transient_index_buffer(Structure):
+    _fields_ = [("data", POINTER(c_uint8)),
+                ("size", c_uint32),
+                ("handle", bgfx_index_buffer_handle),
+                ("startIndex", c_uint32)]
+
+
+class transient_vertex_buffer(Structure):
+    _fields_ = [("data", POINTER(c_uint8)),
+                ("size", c_uint32),
+                ("startVertex", c_uint32),
+                ("stride", c_uint16),
+                ("handle", bgfx_vertex_buffer_handle),
+                ("decl", bgfx_vertex_decl_handle)] 
 
 
 def _bind(funcname, args=None, returns=None):
@@ -205,8 +217,10 @@ destroy_index_buffer = _bind("bgfx_destroy_index_buffer", [
                              bgfx_index_buffer_handle])
 create_vertex_buffer = _bind("bgfx_create_vertex_buffer", [POINTER(
     bgfx_memory), POINTER(vertex_decl), c_uint16], bgfx_vertex_buffer_handle)
-destroy_vertex_buffer = _bind("bgfx_destroy_vertex_buffer", [])
-alloc_transient_buffers = _bind("bgfx_alloc_transient_buffers", [])
+destroy_vertex_buffer = _bind("bgfx_destroy_vertex_buffer", [bgfx_vertex_buffer_handle])
+alloc_transient_buffers = _bind("bgfx_alloc_transient_buffers", [POINTER(transient_vertex_buffer),
+                                POINTER(vertex_decl), c_uint32, POINTER(transient_index_buffer),
+                                c_uint32], c_bool)
 create_shader = _bind("bgfx_create_shader", [
                       POINTER(bgfx_memory)], bgfx_shader_handle)
 create_program = _bind("bgfx_create_program", [
@@ -219,6 +233,11 @@ set_transform = _bind("bgfx_set_transform", [c_void_p, c_uint16], c_uint32)
 set_uniform = _bind("bgfx_set_uniform", [bgfx_uniform_handle, c_void_p, c_uint16])
 set_index_buffer = _bind("bgfx_set_index_buffer", [
                          bgfx_index_buffer_handle, c_uint32, c_uint32])
+
+set_transient_index_buffer = _bind("bgfx_set_transient_index_buffer", [POINTER(transient_index_buffer), c_uint32, c_uint32])
+
+set_transient_vertex_buffer = _bind("bgfx_set_transient_vertex_buffer", [POINTER(transient_vertex_buffer), c_uint32, c_uint32])
+
 set_vertex_buffer = _bind("bgfx_set_vertex_buffer", [
                           bgfx_vertex_buffer_handle, c_uint32, c_uint32])
 set_view_rect = _bind("bgfx_set_view_rect")
