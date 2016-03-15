@@ -15,7 +15,7 @@ Functions Implemented
 
 Here are a list of the bgfx functions that have bindings that have been tested.
 
-32 / 130 ~23%
+35 / 130 ~26%
 
 * vertex_decl_begin
 * vertex_decl_add
@@ -34,6 +34,9 @@ Here are a list of the bgfx functions that have bindings that have been tested.
 * dbg_text_image
 * create_index_buffer
 * destroy_index_buffer
+* alloc_transient_buffers
+* set_transient_index_buffer
+* set_transient_vertex_buffer
 * create_shader
 * create_program
 * destroy_program
