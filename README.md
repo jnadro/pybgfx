@@ -9,6 +9,11 @@ Hello World:
 
 <img align="left" src="https://github.com/jnadro/pybgfx/blob/master/helloworld.png">
 
+Examples
+--------
+
+See my other repo with bgfx examples ported to python! [Link](https://github.com/jnadro/pybgfx_examples)
+
 
 Functions Implemented
 ---------------------
