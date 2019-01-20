@@ -83,6 +83,12 @@ Contribute
 
 - Source Code: [github.com/jnadro/pybgfx](github.com/jnadro/pybgfx)
 
+For development purposes you can locally install this package to test.  This can be done with the following pip command:
+
+```
+python -m pip install -e C:\path\to\this\directory\on\your\harddrive
+```
+
 Deployment
 ----------
 
