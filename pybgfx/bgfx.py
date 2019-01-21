@@ -240,12 +240,20 @@ set_transient_vertex_buffer = _bind("bgfx_set_transient_vertex_buffer", [POINTER
 
 set_vertex_buffer = _bind("bgfx_set_vertex_buffer", [
                           bgfx_vertex_buffer_handle, c_uint32, c_uint32])
-set_view_rect = _bind("bgfx_set_view_rect")
+
+set_view_rect = _bind("bgfx_set_view_rect",
+                      args=[c_uint16, c_uint16, c_uint16, c_uint16, c_uint16],
+                      returns=None)
+                      
 set_view_clear = _bind("bgfx_set_view_clear", [
                        c_uint8, c_uint16, c_uint32, c_float, c_uint8])
 set_view_transform = _bind("bgfx_set_view_transform", [
                            c_uint8, c_void_p, c_void_p])
-touch = _bind("bgfx_touch")
+
+touch = _bind("bgfx_touch",
+              args=[c_uint16],
+              returns=None)
+
 submit = _bind("bgfx_submit", [c_uint8, bgfx_program_handle, c_int], c_uint32)
 
 
