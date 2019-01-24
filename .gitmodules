@@ -4,3 +4,9 @@
 [submodule "src/glfw"]
 	path = src/glfw
 	url = https://github.com/glfw/glfw
+[submodule "src/bx"]
+	path = src/bx
+	url = git://github.com/bkaradzic/bx.git
+[submodule "src/bimg"]
+	path = src/bimg
+	url = git://github.com/bkaradzic/bimg.git
