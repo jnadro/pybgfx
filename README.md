@@ -94,6 +94,20 @@ For development purposes you can locally install this package to test.  This can
 python -m pip install -e C:\path\to\this\directory\on\your\harddrive
 ```
 
+If the src/bgfx, src/bx, src/bximg or src/glfw are empty after cloning this repo you will need to manually pull down these submodules like so.  See **Cloning a Project with Submodules** [here](https://git-scm.com/book/en/v2/Git-Tools-Submodules).
+
+```
+git submodule init
+git submodule update
+```
+
+Building bgfx is straight forward on windows.  Detailed instructions are [here](https://bkaradzic.github.io/bgfx/build.html), but as a quick reminder:
+
+1. ```cd bgfx```
+2. ```..\bx\tools\bin\windows\genie --with-examples --with-dynamic-runtime vs2017```
+3. ```start .build\projects\vs2017\bgfx.sln```
+4. Pick **Release** and **x64** and build the whole solution.
+
 Deployment
 ----------
 
