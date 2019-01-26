@@ -16,7 +16,7 @@ from ctypes import Structure, POINTER, cast, byref
 from ctypes import c_bool, c_int, c_uint8, c_uint16, c_uint32, c_uint64, c_float, c_char_p, c_void_p
 import os
 
-bgfx_dll_path = os.path.dirname(__file__) + "\\bgfx-shared-lib"
+bgfx_dll_path = os.path.dirname(__file__) + "\\bgfx-shared-libRelease"
 _bgfx = ctypes.CDLL(bgfx_dll_path)
 
 # bgfx_renderer_type
