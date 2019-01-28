@@ -12,8 +12,8 @@ __email__ = ""
 __status__ = "Development"
 
 import ctypes
-from ctypes import Structure, POINTER, cast, byref
-from ctypes import c_bool, c_int, c_uint8, c_uint16, c_uint32, c_uint64, c_float, c_char_p, c_void_p
+from ctypes import Structure, POINTER, cast, byref, CFUNCTYPE
+from ctypes import c_bool, c_int, c_uint8, c_uint16, c_uint32, c_uint64, c_float, c_char_p, c_void_p, c_size_t
 import os
 
 bgfx_dll_path = os.path.dirname(__file__) + "\\bgfx-shared-libRelease"
@@ -282,6 +282,56 @@ class transient_vertex_buffer(Structure):
                 ("handle", bgfx_vertex_buffer_handle),
                 ("decl", bgfx_vertex_decl_handle)]
 
+(
+    BGFX_FATAL_DEBUG_CHECK,
+    BGFX_FATAL_INVALID_SHADER,
+    BGFX_FATAL_UNABLE_TO_INITIALIZE,
+    BGFX_FATAL_UNABLE_TO_CREATE_TEXTURE,
+    BGFX_FATAL_DEVICE_LOST,
+
+    BGFX_FATAL_COUNT
+) = [c_int(x) for x in range(6)]
+
+fatal = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_char_p, c_uint16, c_int, c_char_p)
+trace_vargs = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_char_p, c_uint16, c_char_p) # BUG va_list _argList
+profiler_begin = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_char_p, c_uint32, c_char_p, c_uint16)
+profiler_begin_literal = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_char_p, c_uint32, c_char_p, c_uint16)
+profiler_end = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s))
+cache_read_size = CFUNCTYPE(c_uint32, POINTER(bgfx_callback_interface_s), c_uint64)
+cache_read = CFUNCTYPE(c_bool, POINTER(bgfx_callback_interface_s), c_uint64, c_void_p, c_uint32)
+cache_write = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_uint64, c_void_p, c_uint32)
+screen_shot = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_char_p, c_uint32, c_uint32, c_uint32, c_void_p, c_uint32, c_bool)
+capture_begin = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_uint32, c_uint32, c_uint32, c_int, c_bool)
+capture_end = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s))
+capture_frame = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_void_p, c_uint32)
+
+class bgfx_callback_vtbl_s(Structure):
+    _fields_ = [
+        ("fatal", fatal)
+        ("trace_vargs", trace_vargs)
+        ("profiler_begin", profiler_begin)
+        ("profiler_begin_literal", profiler_begin_literal)
+        ("profiler_end", profiler_end)
+        ("cache_read_size", cache_read_size)
+        ("cache_read", cache_read)
+        ("cache_write", cache_write)
+        ("screen_shot", screen_shot)
+        ("capture_begin", capture_begin)
+        ("capture_end", capture_end)
+        ("capture_frame", capture_frame)
+    ]
+
+class bgfx_callback_interface_s(Structure):
+    _fields_ = [
+        ("vtbl", POINTER(bgfx_callback_vtbl_s))
+    ]
+
+realloc = CFUNCTYPE(c_void_p, POINTER(bgfx_allocator_interface_s), c_void_p, c_size_t, c_size_t, c_char_p, c_uint32)
+
+class bgfx_allocator_interface_s(Structure):
+    _fields_ = [
+        ("realloc", realloc)
+    ]
 
 class bgfx_platform_data(Structure):
     _fields_ = [
@@ -309,6 +359,7 @@ class bgfx_init_limits_s(Structure):
         ("transientIbSize", c_uint32)
     ]
 
+# https://bkaradzic.github.io/bgfx/bgfx.html#_CPPv2N4bgfx4InitE
 class bgfx_init_s(Structure):
     _fields_ = [
         ("type", c_int),
@@ -320,8 +371,8 @@ class bgfx_init_s(Structure):
         ("platformData", bgfx_platform_data),
         ("resolution", bgfx_resolution_s),
         ("limits", bgfx_init_limits_s),
-        ("callback", c_bool),
-        ("allocator", c_bool)
+        ("callback", POINTER(bgfx_callback_interface_s)),
+        ("allocator", POINTER(bgfx_allocator_interface_s))
     ]
 
 
@@ -338,7 +389,17 @@ vertex_decl_add = _bind("bgfx_vertex_decl_add", [POINTER(
 vertex_decl_skip = _bind("bgfx_vertex_decl_skip", [
                          POINTER(vertex_decl), c_uint8])
 vertex_decl_end = _bind("bgfx_vertex_decl_end", [POINTER(vertex_decl)])
-init = _bind("bgfx_init")
+
+init_ctor = _bind("bgfx_init_ctor",
+             args=[POINTER(bgfx_init_s)],
+             returns=None)
+
+# bgfx_init
+# https://bkaradzic.github.io/bgfx/bgfx.html#_CPPv2N4bgfx4initERK4Init
+init = _bind("bgfx_init",
+             args=[POINTER(bgfx_init_s)],
+             returns=c_bool)
+
 shutdown = _bind("bgfx_shutdown")
 reset = _bind("bgfx_reset")
 frame = _bind("bgfx_frame")
