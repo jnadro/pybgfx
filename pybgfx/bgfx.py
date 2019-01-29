@@ -292,46 +292,52 @@ class transient_vertex_buffer(Structure):
     BGFX_FATAL_COUNT
 ) = [c_int(x) for x in range(6)]
 
-fatal = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_char_p, c_uint16, c_int, c_char_p)
-trace_vargs = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_char_p, c_uint16, c_char_p) # BUG va_list _argList
-profiler_begin = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_char_p, c_uint32, c_char_p, c_uint16)
-profiler_begin_literal = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_char_p, c_uint32, c_char_p, c_uint16)
-profiler_end = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s))
-cache_read_size = CFUNCTYPE(c_uint32, POINTER(bgfx_callback_interface_s), c_uint64)
-cache_read = CFUNCTYPE(c_bool, POINTER(bgfx_callback_interface_s), c_uint64, c_void_p, c_uint32)
-cache_write = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_uint64, c_void_p, c_uint32)
-screen_shot = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_char_p, c_uint32, c_uint32, c_uint32, c_void_p, c_uint32, c_bool)
-capture_begin = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_uint32, c_uint32, c_uint32, c_int, c_bool)
-capture_end = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s))
-capture_frame = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_void_p, c_uint32)
+#fatal = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_char_p, c_uint16, c_int, c_char_p)
+#trace_vargs = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_char_p, c_uint16, c_char_p) # BUG va_list _argList
+#profiler_begin = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_char_p, c_uint32, c_char_p, c_uint16)
+#profiler_begin_literal = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_char_p, c_uint32, c_char_p, c_uint16)
+#profiler_end = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s))
+#cache_read_size = CFUNCTYPE(c_uint32, POINTER(bgfx_callback_interface_s), c_uint64)
+#cache_read = CFUNCTYPE(c_bool, POINTER(bgfx_callback_interface_s), c_uint64, c_void_p, c_uint32)
+#cache_write = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_uint64, c_void_p, c_uint32)
+#screen_shot = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_char_p, c_uint32, c_uint32, c_uint32, c_void_p, c_uint32, c_bool)
+#capture_begin = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_uint32, c_uint32, c_uint32, c_int, c_bool)
+#capture_end = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s))
+#capture_frame = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_void_p, c_uint32)
 
-class bgfx_callback_vtbl_s(Structure):
-    _fields_ = [
-        ("fatal", fatal)
-        ("trace_vargs", trace_vargs)
-        ("profiler_begin", profiler_begin)
-        ("profiler_begin_literal", profiler_begin_literal)
-        ("profiler_end", profiler_end)
-        ("cache_read_size", cache_read_size)
-        ("cache_read", cache_read)
-        ("cache_write", cache_write)
-        ("screen_shot", screen_shot)
-        ("capture_begin", capture_begin)
-        ("capture_end", capture_end)
-        ("capture_frame", capture_frame)
-    ]
+#class bgfx_callback_vtbl_s(Structure):
+#    _fields_ = [
+#        ("fatal", fatal)
+#        ("trace_vargs", trace_vargs)
+#        ("profiler_begin", profiler_begin)
+#        ("profiler_begin_literal", profiler_begin_literal)
+#        ("profiler_end", profiler_end)
+#        ("cache_read_size", cache_read_size)
+#        ("cache_read", cache_read)
+#        ("cache_write", cache_write)
+#        ("screen_shot", screen_shot)
+#        ("capture_begin", capture_begin)
+#        ("capture_end", capture_end)
+#        ("capture_frame", capture_frame)
+#    ]
 
-class bgfx_callback_interface_s(Structure):
-    _fields_ = [
-        ("vtbl", POINTER(bgfx_callback_vtbl_s))
-    ]
+#class bgfx_callback_interface_s(Structure):
+#    _fields_ = [
+#        ("vtbl", POINTER(bgfx_callback_vtbl_s))
+#    ]
 
-realloc = CFUNCTYPE(c_void_p, POINTER(bgfx_allocator_interface_s), c_void_p, c_size_t, c_size_t, c_char_p, c_uint32)
+class bgfx_callback_interface_t(Structure):
+    _fields_ = []
 
-class bgfx_allocator_interface_s(Structure):
-    _fields_ = [
-        ("realloc", realloc)
-    ]
+#realloc = CFUNCTYPE(c_void_p, POINTER(bgfx_allocator_interface_s), c_void_p, c_size_t, c_size_t, c_char_p, c_uint32)
+#
+#class bgfx_allocator_interface_s(Structure):
+#    _fields_ = [
+#        ("realloc", realloc)
+#    ]
+
+class bgfx_allocator_interface_t(Structure):
+    _fields_ = []
 
 class bgfx_platform_data(Structure):
     _fields_ = [
@@ -360,7 +366,7 @@ class bgfx_init_limits_s(Structure):
     ]
 
 # https://bkaradzic.github.io/bgfx/bgfx.html#_CPPv2N4bgfx4InitE
-class bgfx_init_s(Structure):
+class bgfx_init_t(Structure):
     _fields_ = [
         ("type", c_int),
         ("vendorId", c_uint16),
@@ -371,8 +377,8 @@ class bgfx_init_s(Structure):
         ("platformData", bgfx_platform_data),
         ("resolution", bgfx_resolution_s),
         ("limits", bgfx_init_limits_s),
-        ("callback", POINTER(bgfx_callback_interface_s)),
-        ("allocator", POINTER(bgfx_allocator_interface_s))
+        ("callback", POINTER(bgfx_callback_interface_t)),
+        ("allocator", POINTER(bgfx_allocator_interface_t))
     ]
 
 
@@ -391,13 +397,13 @@ vertex_decl_skip = _bind("bgfx_vertex_decl_skip", [
 vertex_decl_end = _bind("bgfx_vertex_decl_end", [POINTER(vertex_decl)])
 
 init_ctor = _bind("bgfx_init_ctor",
-             args=[POINTER(bgfx_init_s)],
+             args=[POINTER(bgfx_init_t)],
              returns=None)
 
 # bgfx_init
 # https://bkaradzic.github.io/bgfx/bgfx.html#_CPPv2N4bgfx4initERK4Init
 init = _bind("bgfx_init",
-             args=[POINTER(bgfx_init_s)],
+             args=[POINTER(bgfx_init_t)],
              returns=c_bool)
 
 shutdown = _bind("bgfx_shutdown")

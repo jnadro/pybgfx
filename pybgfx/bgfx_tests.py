@@ -25,6 +25,14 @@ class TestEnums(unittest.TestCase):
         self.assertEqual(bgfx.BGFX_RENDERER_TYPE_VULKAN.value, 8)
         self.assertEqual(bgfx.BGFX_RENDERER_TYPE_COUNT.value, 9)
 
+class TestAPI(unittest.TestCase):
+
+    def test_init(self):
+        init = bgfx.bgfx_init_t()
+        bgfx.init_ctor(ctypes.pointer(init))
+
+        result = bgfx.init(ctypes.pointer(init))
+        self.assertEqual(result, True)
 
 if __name__ == '__main__':
     unittest.main()
