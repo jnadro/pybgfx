@@ -407,16 +407,30 @@ init = _bind("bgfx_init",
              returns=c_bool)
 
 shutdown = _bind("bgfx_shutdown")
-reset = _bind("bgfx_reset")
-frame = _bind("bgfx_frame")
+
+reset = _bind("bgfx_reset",
+              args=[c_uint32, c_uint32, c_uint32, c_int])
+
+frame = _bind("bgfx_frame",
+              args=[c_bool],
+              returns=c_uint32)
+              
 alloc = _bind("bgfx_alloc", [c_uint32], POINTER(bgfx_memory))
 copy = _bind("bgfx_copy", [c_void_p, c_uint32], POINTER(bgfx_memory))
 get_renderer_type = _bind("bgfx_get_renderer_type", [], c_int)
-set_debug = _bind("bgfx_set_debug")
-dbg_text_clear = _bind("bgfx_dbg_text_clear")
-dbg_text_printf = _bind("bgfx_dbg_text_printf")
-dbg_text_image = _bind("bgfx_dbg_text_image", [
-                       c_uint16, c_uint16, c_uint16, c_uint16, c_void_p, c_uint16])
+
+set_debug = _bind("bgfx_set_debug",
+                  args=[c_uint32])
+
+dbg_text_clear = _bind("bgfx_dbg_text_clear",
+                       args=[c_uint8, c_bool])
+
+dbg_text_printf = _bind("bgfx_dbg_text_printf",
+                        args=[c_uint16, c_uint16, c_uint8, c_void_p])
+
+dbg_text_image = _bind("bgfx_dbg_text_image", 
+                       args=[c_uint16, c_uint16, c_uint16, c_uint16, c_void_p, c_uint16])
+
 create_index_buffer = _bind("bgfx_create_index_buffer", [
                             POINTER(bgfx_memory), c_uint16], bgfx_index_buffer_handle)
 destroy_index_buffer = _bind("bgfx_destroy_index_buffer", [
@@ -451,8 +465,9 @@ set_view_rect = _bind("bgfx_set_view_rect",
                       args=[c_uint16, c_uint16, c_uint16, c_uint16, c_uint16],
                       returns=None)
                       
-set_view_clear = _bind("bgfx_set_view_clear", [
-                       c_uint8, c_uint16, c_uint32, c_float, c_uint8])
+set_view_clear = _bind("bgfx_set_view_clear",
+                       args=[c_uint8, c_uint16, c_uint32, c_float, c_uint8])
+
 set_view_transform = _bind("bgfx_set_view_transform", [
                            c_uint8, c_void_p, c_void_p])
 
