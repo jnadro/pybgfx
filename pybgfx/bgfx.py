@@ -13,7 +13,7 @@ __status__ = "Development"
 
 import ctypes
 from ctypes import Structure, POINTER, cast, byref, CFUNCTYPE
-from ctypes import c_bool, c_int, c_uint8, c_uint16, c_uint32, c_uint64, c_float, c_char_p, c_void_p, c_size_t
+from ctypes import c_bool, c_int, c_int8, c_int16, c_int32, c_int64, c_uint8, c_uint16, c_uint32, c_uint64, c_float, c_char_p, c_void_p, c_size_t, c_char
 import os
 
 bgfx_dll_path = os.path.dirname(__file__) + "\\bgfx-shared-libRelease"
@@ -357,6 +357,73 @@ class bgfx_memory(Structure):
     _fields_ = [("data", POINTER(c_uint8)),
                 ("size", c_uint32)]
 
+class bgfx_transform(Structure):
+    _fields_ = [("data", POINTER(c_float)),
+                ("num", c_uint16)]
+
+bgfx_view_id = c_uint16
+
+class bgfx_view_stats(Structure):
+    _fields_ = [("name", c_char * 256),
+                ("view", bgfx_view_id),
+                ("cpuTimeElapsed", c_int64),
+                ("gpuTimeElapsed", c_int64)]
+
+class bgfx_encoder_stats(Structure):
+    _fields_ = [("cpuTimeBegin", c_int64),
+                ("cpuTimeEnd", c_int64)]
+
+class bgfx_stats(Structure):
+    _fields_ = [
+    ("cpuTimeFrame", c_int64),
+    ("cpuTimeBegin", c_int64),
+    ("cpuTimeEnd", c_int64),
+    ("cpuTimerFreq", c_int64),
+
+    ("gpuTimeBegin", c_int64),
+    ("gpuTimeEnd", c_int64),
+    ("gpuTimerFreq", c_int64),
+
+    ("waitRender", c_int64),
+    ("waitSubmit", c_int64),
+
+    ("numDraw", c_uint32),
+    ("numCompute", c_uint32),
+    ("numBlit", c_uint32),
+    ("maxGpuLatency", c_uint32),
+
+    ("numDynamicIndexBuffers", c_uint16),
+    ("numDynamicVertexBuffers", c_uint16),
+    ("numFrameBuffers", c_uint16),
+    ("numIndexBuffers", c_uint16),
+    ("numOcclusionQueries", c_uint16),
+    ("numPrograms", c_uint16),
+    ("numShaders", c_uint16),
+    ("numTextures", c_uint16),
+    ("numUniforms", c_uint16),
+    ("numVertexBuffers", c_uint16),
+    ("numVertexDecls", c_uint16),
+
+    ("textureMemoryUsed", c_int64),
+    ("rtMemoryUsed", c_int64),
+    ("transientVbUsed", c_uint32),
+    ("transientIbUsed", c_uint32),
+
+    ("numPrims", c_uint32 * BGFX_TOPOLOGY_COUNT.value),
+
+    ("gpuMemoryMax", c_int64),
+    ("gpuMemoryUsed", c_int64),
+
+    ("width", c_uint16),
+    ("height", c_uint16),
+    ("textWidth", c_uint16),
+    ("textHeight", c_uint16),
+
+    ("numViews", c_uint16),
+    ("viewStats", POINTER(bgfx_view_stats)),
+
+    ("numEncoders", c_uint8),
+    ("encoderStats", POINTER(bgfx_encoder_stats))]
 
 class vertex_decl(Structure):
     _fields_ = [("hash", c_uint32),
