@@ -447,6 +447,92 @@ class transient_vertex_buffer(Structure):
                 ("handle", bgfx_vertex_buffer_handle),
                 ("decl", bgfx_vertex_decl_handle)]
 
+class instance_data_buffer(Structure):
+    _fields_ = [
+        ("data", c_uint8),
+        ("size", c_uint32),
+        ("offset", c_uint32),
+        ("num", c_uint32),
+        ("stride", c_uint16),
+        ("handle", bgfx_vertex_buffer_handle)
+    ]
+
+class texture_info(Structure):
+    _fields_ = [
+        ("format", c_int),
+        ("storageSize", c_uint32),
+        ("width", c_uint16),
+        ("height", c_uint16),
+        ("depth", c_uint16),
+        ("numLayers", c_uint16),
+        ("numMips", c_uint8),
+        ("bitsPerPixel", c_uint8),
+        ("cubeMap", c_bool)
+    ]
+
+class uniform_info(Structure):
+    _fields_ = [
+        ("name", c_char * 256),
+        ("type", c_int),
+        ("num", c_uint16)
+    ]
+
+class attachment(Structure):
+    _fields_ = [
+        ("access", c_int),
+        ("handle", bgfx_texture_handle),
+        ("mip", c_uint16),
+        ("layer", c_uint16),
+        ("resolve", c_uint8)
+    ]
+
+class caps_gpu(Structure):
+    _fields_ = [
+        ("vendorId", c_uint16),
+        ("deviceId", c_uint16)
+    ]
+
+class cap_limits(Structure):
+    _fields_ = [
+        ("maxDrawCalls", c_uint32),
+        ("maxBlits", c_uint32),
+        ("maxTextureSize", c_uint32),
+        ("maxTextureLayers", c_uint32),
+        ("maxViews", c_uint32),
+        ("maxFrameBuffers", c_uint32),
+        ("maxFBAttachments", c_uint32),
+        ("maxPrograms", c_uint32),
+        ("maxShaders", c_uint32),
+        ("maxTextures", c_uint32),
+        ("maxTextureSamplers", c_uint32),
+        ("maxComputeBindings", c_uint32),
+        ("maxVertexDecls", c_uint32),
+        ("maxVertexStreams", c_uint32),
+        ("maxIndexBuffers", c_uint32),
+        ("maxVertexBuffers", c_uint32),
+        ("maxDynamicIndexBuffers", c_uint32),
+        ("maxDynamicVertexBuffers", c_uint32),
+        ("maxUniforms", c_uint32),
+        ("maxOcclusionQueries", c_uint32),
+        ("maxEncoders", c_uint32),
+        ("transientVbSize", c_uint32),
+        ("transientIbSize", c_uint32)
+    ]
+
+class caps(Structure):
+    _fields_ = [
+        ("rendererType", c_int),
+        ("supported", c_uint64),
+        ("vendorId", c_uint16),
+        ("deviceId", c_uint16),
+        ("homogeneousDepth", c_bool),
+        ("originBottomLeft", c_bool),
+        ("numGPUs", c_uint8),
+        ("gpu", c_int * 4),
+        ("limits", c_int),
+        ("formats", c_uint16 * BGFX_TEXTURE_FORMAT_COUNT.value)
+    ]
+
 (
     BGFX_FATAL_DEBUG_CHECK,
     BGFX_FATAL_INVALID_SHADER,
