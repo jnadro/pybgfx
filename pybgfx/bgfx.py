@@ -316,26 +316,38 @@ BGFX_BUFFER_NONE = 0x0000
 
 BGFX_INVALID_HANDLE = 0xFFFF
 
+class bgfx_dynamic_index_buffer_handle(Structure):
+    _fields_ = [("idx", c_uint16)]
+
+class bgfx_dynamic_vertex_buffer_handle(Structure):
+    _fields_ = [("idx", c_uint16)]
+
+class bgfx_frame_buffer_handle(Structure):
+    _fields_ = [("idx", c_uint16)]
 
 class bgfx_index_buffer_handle(Structure):
     _fields_ = [("idx", c_uint16)]
 
-
-class bgfx_vertex_buffer_handle(Structure):
+class bgfx_indirect_buffer_handle(Structure):
     _fields_ = [("idx", c_uint16)]
 
+class bgfx_occlusion_query_handle(Structure):
+    _fields_ = [("idx", c_uint16)]
 
 class bgfx_program_handle(Structure):
     _fields_ = [("idx", c_uint16)]
 
-
 class bgfx_shader_handle(Structure):
     _fields_ = [("idx", c_uint16)]
 
+class bgfx_texture_handle(Structure):
+    _fields_ = [("idx", c_uint16)]
 
 class bgfx_uniform_handle(Structure):
     _fields_ = [("idx", c_uint16)]
 
+class bgfx_vertex_buffer_handle(Structure):
+    _fields_ = [("idx", c_uint16)]
 
 class bgfx_vertex_decl_handle(Structure):
     _fields_ = [("idx", c_uint16)]
