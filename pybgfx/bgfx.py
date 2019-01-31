@@ -916,6 +916,58 @@ destroy_program = _bind("bgfx_destroy_program",
     args=[bgfx_program_handle],
     returns=None)
 
+is_texture_valid = _bind("bgfx_is_texture_valid",
+    args=[c_uint16, c_bool, c_uint16, bgfx_texture_format, c_uint64],
+    returns=c_bool)
+
+calc_texture_size = _bind("bgfx_calc_texture_size",
+    args=[POINTER(texture_info), c_uint16, c_uint16, c_uint16, c_bool, c_bool, c_uint16, bgfx_texture_format],
+    returns=None)
+
+create_texture = _bind("bgfx_create_texture",
+    args=[POINTER(bgfx_memory), c_uint64, c_uint8, POINTER(texture_info)],
+    returns=bgfx_texture_handle)
+
+create_texture_2d = _bind("bgfx_create_texture_2d",
+    args=[c_uint16, c_uint16, c_bool, c_uint16, bgfx_texture_format, c_uint64, POINTER(bgfx_memory)],
+    returns=bgfx_texture_handle)
+
+create_texture_2d_scaled = _bind("bgfx_create_texture_2d_scaled",
+    args=[backbuffer_ratio, c_bool, c_uint16, bgfx_texture_format, c_uint64],
+    returns=bgfx_texture_handle)
+
+create_texture_3d = _bind("bgfx_create_texture_3d",
+    args=[c_uint16, c_uint16, c_uint16, c_bool, bgfx_texture_format, c_uint64, POINTER(bgfx_memory)],
+    returns=bgfx_texture_handle)
+
+create_texture_cube = _bind("bgfx_create_texture_cube",
+    args=[c_uint16, c_bool, c_uint16, bgfx_texture_format, c_uint64, POINTER(bgfx_memory)],
+    returns=bgfx_texture_handle)
+
+update_texture_2d = _bind("bgfx_update_texture_2d",
+    args=[bgfx_texture_handle, c_uint16, c_uint8, c_uint16, c_uint16, c_uint16, c_uint16, POINTER(bgfx_memory), c_uint16],
+    returns=None)
+
+update_texture_3d = _bind("bgfx_update_texture_3d",
+    args=[bgfx_texture_handle, c_uint8, c_uint16, c_uint16, c_uint16, c_uint16, c_uint16, c_uint16, POINTER(bgfx_memory)],
+    returns=None)
+
+update_texture_cube = _bind("bgfx_update_texture_cube",
+    args=[bgfx_texture_handle, c_uint16, c_uint8, c_uint8, c_uint16, c_uint16, c_uint16, c_uint16, POINTER(bgfx_memory), c_uint16],
+    returns=None)
+
+read_texture = _bind("bgfx_read_texture",
+    args=[bgfx_texture_handle, c_void_p, c_uint8],
+    returns=c_uint32)
+
+set_texture_name = _bind("bgfx_set_texture_name",
+    args=[bgfx_texture_handle],
+    returns=None)
+
+destroy_texture = _bind("bgfx_destroy_texture",
+    args=[bgfx_texture_handle],
+    returns=None)
+
 create_uniform = _bind("bgfx_create_uniform", [c_char_p, c_uint32, c_uint16], bgfx_uniform_handle)
 destroy_uniform = _bind("bgfx_destroy_uniform", [bgfx_uniform_handle])
 set_state = _bind("bgfx_set_state", [c_uint64, c_uint32])
