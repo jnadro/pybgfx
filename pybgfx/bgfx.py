@@ -848,11 +848,62 @@ destroy_dynamic_vertex_buffer = _bind("bgfx_destroy_dynamic_vertex_buffer",
     args=[bgfx_dynamic_vertex_buffer_handle],
     returns=None)
 
-alloc_transient_buffers = _bind("bgfx_alloc_transient_buffers", [POINTER(transient_vertex_buffer),
-                                POINTER(vertex_decl), c_uint32, POINTER(transient_index_buffer),
-                                c_uint32], c_bool)
-create_shader = _bind("bgfx_create_shader", [
-                      POINTER(bgfx_memory)], bgfx_shader_handle)
+get_avail_transient_index_buffer = _bind("bgfx_get_avail_transient_index_buffer",
+    args=[c_uint32],
+    returns=c_uint32)
+
+get_avail_transient_vertex_buffer = _bind("bgfx_get_avail_transient_vertex_buffer",
+    args=[c_uint32, POINTER(vertex_decl)],
+    returns=c_uint32)
+
+get_avail_instance_data_buffer = _bind("bgfx_get_avail_instance_data_buffer",
+    args=[c_uint32, c_uint16],
+    returns=c_uint32)
+
+alloc_transient_index_buffer = _bind("bgfx_alloc_transient_index_buffer",
+    args=[POINTER(transient_index_buffer), c_uint32],
+    returns=None)
+
+alloc_transient_vertex_buffer = _bind("bgfx_alloc_transient_vertex_buffer",
+    args=[POINTER(transient_vertex_buffer), c_uint32, POINTER(vertex_decl)],
+    returns=None)
+
+alloc_transient_buffers = _bind("bgfx_alloc_transient_buffers", 
+    args=[POINTER(transient_vertex_buffer), POINTER(vertex_decl), c_uint32, POINTER(transient_index_buffer), c_uint32], 
+    returns=c_bool)
+
+alloc_instance_data_buffer = _bind("bgfx_alloc_instance_data_buffer",
+    args=[POINTER(instance_data_buffer), c_uint32, c_uint16],
+    returns=None)
+
+create_indirect_buffer = _bind("bgfx_create_indirect_buffer",
+    args=[c_uint32],
+    returns=bgfx_indirect_buffer_handle)
+
+destroy_indirect_buffer = _bind("bgfx_destroy_indirect_buffer",
+    args=[bgfx_indirect_buffer_handle],
+    returns=None)
+
+create_shader = _bind("bgfx_create_shader",
+    args=[POINTER(bgfx_memory)], 
+    returns=bgfx_shader_handle)
+
+get_shader_uniforms = _bind("bgfx_get_shader_uniforms",
+    args=[bgfx_shader_handle, POINTER(bgfx_uniform_handle), c_uint16],
+    returns=c_uint16)
+
+get_uniform_info = _bind("bgfx_get_uniform_info",
+    args=[bgfx_uniform_handle, POINTER(uniform_info)],
+    returns=None)
+
+set_shader_name = _bind("bgfx_set_shader_name",
+    args=[bgfx_shader_handle, c_char_p, c_int32],
+    returns=None)
+
+destroy_shader = _bind("bgfx_destroy_shader",
+    args=[bgfx_shader_handle],
+    returns=None)
+
 create_program = _bind("bgfx_create_program", [
                        bgfx_shader_handle, bgfx_shader_handle, c_bool], bgfx_program_handle)
 destroy_program = _bind("bgfx_destroy_program", [bgfx_program_handle])
