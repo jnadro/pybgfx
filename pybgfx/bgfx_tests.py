@@ -61,5 +61,9 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(bgfx.get_renderer_name(7), b'OpenGL 2.1')
         self.assertEqual(bgfx.get_renderer_name(8), b'Vulkan')
 
+    def test_get_renderer_type(self):
+        renderer_type = bgfx.get_renderer_type()
+        print(renderer_type)
+
 if __name__ == '__main__':
     unittest.main()

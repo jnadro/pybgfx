@@ -724,15 +724,29 @@ init = _bind("bgfx_init",
 shutdown = _bind("bgfx_shutdown")
 
 reset = _bind("bgfx_reset",
-              args=[c_uint32, c_uint32, c_uint32, c_int])
+              args=[c_uint32, c_uint32, c_uint32, bgfx_texture_format])
+
+#class bgfx_encoder(Structure):
+#    _fields_ = []
+
+#begin = _bind("bgfx_begin",
+#    args=[],
+#    returns=POINTER(bgfx_encoder))
+
+#end = _bind("bgfx_end",
+#    args=[POINTER(bgfx_encoder)],
+#    returns=None)  
 
 frame = _bind("bgfx_frame",
               args=[c_bool],
               returns=c_uint32)
 
+get_renderer_type = _bind("bgfx_get_renderer_type", 
+    args=[],
+    returns=bgfx_renderer_type)
+
 alloc = _bind("bgfx_alloc", [c_uint32], POINTER(bgfx_memory))
 copy = _bind("bgfx_copy", [c_void_p, c_uint32], POINTER(bgfx_memory))
-get_renderer_type = _bind("bgfx_get_renderer_type", [], c_int)
 
 set_debug = _bind("bgfx_set_debug",
                   args=[c_uint32])
