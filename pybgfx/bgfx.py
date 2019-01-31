@@ -19,7 +19,10 @@ import os
 bgfx_dll_path = os.path.dirname(__file__) + "\\bgfx-shared-libRelease"
 _bgfx = ctypes.CDLL(bgfx_dll_path)
 
+enum_type = c_int
+
 # bgfx_renderer_type
+bgfx_renderer_type = enum_type
 (
     BGFX_RENDERER_TYPE_NOOP,
     BGFX_RENDERER_TYPE_DIRECT3D9,
@@ -32,18 +35,20 @@ _bgfx = ctypes.CDLL(bgfx_dll_path)
     BGFX_RENDERER_TYPE_VULKAN,
 
     BGFX_RENDERER_TYPE_COUNT
-) = [c_int(x) for x in range(10)]
+) = map(bgfx_renderer_type,range(10))
 
 # bgfx_access
+bgfx_access = enum_type
 (
     BGFX_ACCESS_READ,
     BGFX_ACCESS_WRITE,
     BGFX_ACCESS_READWRITE,
 
     BGFX_ACCESS_COUNT
-) = [c_int(x) for x in range(4)]
+) = map(bgfx_access, range(4))
 
 # bgfx_attrib
+bgfx_attrib = enum_type
 (
     BGFX_ATTRIB_POSITION,
     BGFX_ATTRIB_NORMAL,
@@ -65,9 +70,10 @@ _bgfx = ctypes.CDLL(bgfx_dll_path)
     BGFX_ATTRIB_TEXCOORD7,
 
     BGFX_ATTRIB_COUNT
-) = [c_int(x) for x in range(19)]
+) = map(bgfx_attrib, range(19))
 
 # bgfx_attrib_type
+bgfx_attrib_type = enum_type
 (
     BGFX_ATTRIB_TYPE_UINT8,
     BGFX_ATTRIB_TYPE_UINT10,
@@ -76,9 +82,10 @@ _bgfx = ctypes.CDLL(bgfx_dll_path)
     BGFX_ATTRIB_TYPE_FLOAT,
 
     BGFX_ATTRIB_TYPE_COUNT
-) = [c_int(x) for x in range(6)]
+) = map(bgfx_attrib_type, range(6))
 
 # bgfx_texture_format
+bgfx_texture_format = enum_type
 (
     BGFX_TEXTURE_FORMAT_BC1,
     BGFX_TEXTURE_FORMAT_BC2,
@@ -171,9 +178,10 @@ _bgfx = ctypes.CDLL(bgfx_dll_path)
     BGFX_TEXTURE_FORMAT_D0S8,
 
     BGFX_TEXTURE_FORMAT_COUNT
-) = map(c_int, range(86))
+) = map(bgfx_texture_format, range(86))
 
 # bgfx_uniform_type
+bgfx_uniform_type = enum_type
 (
     BGFX_UNIFORM_TYPE_SAMPLER,
     BGFX_UNIFORM_TYPE_END,
@@ -183,9 +191,10 @@ _bgfx = ctypes.CDLL(bgfx_dll_path)
     BGFX_UNIFORM_TYPE_MAT4,
 
     BGFX_UNIFORM_TYPE_COUNT
-) = map(c_int, range(6))
+) = map(bgfx_uniform_type, range(6))
 
 # backbuffer_ratio
+backbuffer_ratio = enum_type
 (
     BGFX_BACKBUFFER_RATIO_EQUAL,
     BGFX_BACKBUFFER_RATIO_HALF,
@@ -195,18 +204,20 @@ _bgfx = ctypes.CDLL(bgfx_dll_path)
     BGFX_BACKBUFFER_RATIO_DOUBLE,
 
     BGFX_BACKBUFFER_RATIO_COUNT
-) = map(c_int, range(7))
+) = map(backbuffer_ratio, range(7))
 
 # occlusion_query_result
+occlusion_query_result = enum_type
 (
     BGFX_OCCLUSION_QUERY_RESULT_INVISIBLE,
     BGFX_OCCLUSION_QUERY_RESULT_VISIBLE,
     BGFX_OCCLUSION_QUERY_RESULT_NORESULT,
 
     BGFX_OCCLUSION_QUERY_RESULT_COUNT
-) = map(c_int, range(4))
+) = map(occlusion_query_result, range(4))
 
 # topology
+topology = enum_type
 (
     BGFX_TOPOLOGY_TRI_LIST,
     BGFX_TOPOLOGY_TRI_STRIP,
@@ -215,9 +226,10 @@ _bgfx = ctypes.CDLL(bgfx_dll_path)
     BGFX_TOPOLOGY_POINT_LIST,
 
     BGFX_TOPOLOGY_COUNT
-) = map(c_int, range(6))
+) = map(topology, range(6))
 
 # topology_convert
+topology_convert = enum_type
 (
     BGFX_TOPOLOGY_CONVERT_TRI_LIST_FLIP_WINDING,
     BGFX_TOPOLOGY_CONVERT_TRI_STRIP_FLIP_WINDING,
@@ -226,9 +238,10 @@ _bgfx = ctypes.CDLL(bgfx_dll_path)
     BGFX_TOPOLOGY_CONVERT_LINE_STRIP_TO_LINE_LIST,
 
     BGFX_TOPOLOGY_CONVERT_COUNT
-) = map(c_int, range(6))
+) = map(topology_convert, range(6))
 
 # topology_sort
+topology_sort = enum_type
 (
     BGFX_TOPOLOGY_SORT_DIRECTION_FRONT_TO_BACK_MIN,
     BGFX_TOPOLOGY_SORT_DIRECTION_FRONT_TO_BACK_AVG,
@@ -244,9 +257,10 @@ _bgfx = ctypes.CDLL(bgfx_dll_path)
     BGFX_TOPOLOGY_SORT_DISTANCE_BACK_TO_FRONT_MAX,
 
     BGFX_TOPOLOGY_SORT_COUNT
-) = map(c_int, range(13))
+) = map(topology_sort, range(13))
 
 # view_mode
+view_mode = enum_type
 (
     BGFX_VIEW_MODE_DEFAULT,
     BGFX_VIEW_MODE_SEQUENTIAL,
@@ -254,7 +268,7 @@ _bgfx = ctypes.CDLL(bgfx_dll_path)
     BGFX_VIEW_MODE_DEPTH_DESCENDING,
 
     BGFX_VIEW_MODE_CCOUNT
-) = map(c_int, range(5))
+) = map(view_mode, range(5))
 
 BGFX_PCI_ID_NONE = 0x0000
 BGFX_PCI_ID_SOFTWARE_RASTERIZER = 0x0001
@@ -459,7 +473,7 @@ class instance_data_buffer(Structure):
 
 class texture_info(Structure):
     _fields_ = [
-        ("format", c_int),
+        ("format", bgfx_texture_format),
         ("storageSize", c_uint32),
         ("width", c_uint16),
         ("height", c_uint16),
@@ -473,13 +487,13 @@ class texture_info(Structure):
 class uniform_info(Structure):
     _fields_ = [
         ("name", c_char * 256),
-        ("type", c_int),
+        ("type", bgfx_uniform_type),
         ("num", c_uint16)
     ]
 
 class attachment(Structure):
     _fields_ = [
-        ("access", c_int),
+        ("access", bgfx_access),
         ("handle", bgfx_texture_handle),
         ("mip", c_uint16),
         ("layer", c_uint16),
@@ -521,18 +535,20 @@ class cap_limits(Structure):
 
 class caps(Structure):
     _fields_ = [
-        ("rendererType", c_int),
+        ("rendererType", bgfx_renderer_type),
         ("supported", c_uint64),
         ("vendorId", c_uint16),
         ("deviceId", c_uint16),
         ("homogeneousDepth", c_bool),
         ("originBottomLeft", c_bool),
         ("numGPUs", c_uint8),
-        ("gpu", c_int * 4),
-        ("limits", c_int),
+        ("gpu", caps_gpu * 4),
+        ("limits", cap_limits),
         ("formats", c_uint16 * BGFX_TEXTURE_FORMAT_COUNT.value)
     ]
 
+# bgfx_fatal
+bgfx_fatal = enum_type
 (
     BGFX_FATAL_DEBUG_CHECK,
     BGFX_FATAL_INVALID_SHADER,
@@ -541,7 +557,7 @@ class caps(Structure):
     BGFX_FATAL_DEVICE_LOST,
 
     BGFX_FATAL_COUNT
-) = [c_int(x) for x in range(6)]
+) = map(bgfx_fatal, range(6))
 
 #fatal = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_char_p, c_uint16, c_int, c_char_p)
 #trace_vargs = CFUNCTYPE(None, POINTER(bgfx_callback_interface_s), c_char_p, c_uint16, c_char_p) # BUG va_list _argList
