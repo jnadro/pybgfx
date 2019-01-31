@@ -745,6 +745,10 @@ get_renderer_type = _bind("bgfx_get_renderer_type",
     args=[],
     returns=bgfx_renderer_type)
 
+get_caps = _bind("bgfx_get_caps",
+    args=[],
+    returns=POINTER(caps))
+
 alloc = _bind("bgfx_alloc", [c_uint32], POINTER(bgfx_memory))
 copy = _bind("bgfx_copy", [c_void_p, c_uint32], POINTER(bgfx_memory))
 

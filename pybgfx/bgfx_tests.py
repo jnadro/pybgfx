@@ -75,5 +75,17 @@ class TestAPI(unittest.TestCase):
         renderer_type = bgfx.get_renderer_type()
         self.assertNotEqual(renderer_type, 0)
 
+    def test_get_caps(self):
+        caps = bgfx.get_caps()
+
+        # check against null pointer
+        # see: https://docs.python.org/2/library/ctypes.html#pointers
+        self.assertNotEqual(caps, ctypes.POINTER(bgfx.caps)())
+
+        # get the actual object
+        caps = caps.contents
+
+        print("Renderer Type: ", bgfx.get_renderer_name(caps.rendererType))
+
 if __name__ == '__main__':
     unittest.main()
