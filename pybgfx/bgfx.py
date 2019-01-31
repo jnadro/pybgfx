@@ -968,6 +968,38 @@ destroy_texture = _bind("bgfx_destroy_texture",
     args=[bgfx_texture_handle],
     returns=None)
 
+create_frame_buffer = _bind("bgfx_create_frame_buffer",
+    args=[c_uint16, c_uint16, bgfx_texture_format, c_uint64],
+    returns=bgfx_frame_buffer_handle)
+
+set_frame_buffer_name = _bind("bgfx_set_frame_buffer_name",
+    args=[bgfx_frame_buffer_handle, c_char_p, c_int32],
+    returns=None)
+
+create_frame_buffer_scaled = _bind("bgfx_create_frame_buffer_scaled",
+    args=[backbuffer_ratio, bgfx_texture_format, c_uint64],
+    returns=bgfx_frame_buffer_handle)
+
+create_frame_buffer_from_handles = _bind("bgfx_create_frame_buffer_from_handles",
+    args=[c_uint8, POINTER(bgfx_texture_handle), c_bool],
+    returns=bgfx_frame_buffer_handle)
+
+create_frame_buffer_from_attachment = _bind("bgfx_create_frame_buffer_from_attachment",
+    args=[c_uint8, POINTER(attachment), c_bool],
+    returns=bgfx_frame_buffer_handle)
+
+create_frame_buffer_from_nwh = _bind("bgfx_create_frame_buffer_from_nwh",
+    args=[c_void_p, c_uint16, c_uint16, bgfx_texture_format, bgfx_texture_format],
+    returns=bgfx_frame_buffer_handle)
+
+get_texture = _bind("bgfx_get_texture",
+    args=[bgfx_frame_buffer_handle, c_uint8],
+    returns=bgfx_texture_handle)
+
+destroy_frame_buffer = _bind("bgfx_destroy_frame_buffer",
+    args=[bgfx_frame_buffer_handle],
+    returns=None)
+
 create_uniform = _bind("bgfx_create_uniform", [c_char_p, c_uint32, c_uint16], bgfx_uniform_handle)
 destroy_uniform = _bind("bgfx_destroy_uniform", [bgfx_uniform_handle])
 set_state = _bind("bgfx_set_state", [c_uint64, c_uint32])
