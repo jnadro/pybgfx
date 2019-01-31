@@ -679,6 +679,30 @@ vertex_decl_end = _bind("bgfx_vertex_decl_end",
     args=[POINTER(vertex_decl)],
     returns=None)
 
+vertex_pack = _bind("bgfx_vertex_pack",
+    args=[POINTER(c_float), c_bool, bgfx_attrib, POINTER(vertex_decl), c_void_p, c_uint32],
+    returns=None)
+
+vertex_unpack = _bind("bgfx_vertex_unpack",
+    args=[POINTER(c_float), bgfx_attrib, POINTER(vertex_decl), c_void_p, c_uint32],
+    returns=None)
+
+vertex_convert = _bind("bgfx_vertex_convert",
+    args=[POINTER(vertex_decl), c_void_p, POINTER(vertex_decl), c_void_p, c_uint32],
+    returns=None)
+
+weld_vertices = _bind("bgfx_weld_vertices",
+    args=[POINTER(c_uint16), POINTER(vertex_decl), c_void_p, c_uint16, c_float],
+    returns=c_uint16)
+
+topology_convert = _bind("bgfx_topology_convert",
+    args=[topology_convert, c_void_p, c_uint32, c_void_p, c_uint32, c_bool],
+    returns=None)
+
+topology_sort_tri_list = _bind("bgfx_topology_sort_tri_list",
+    args=[topology_sort, c_void_p, c_uint32, POINTER(c_float), POINTER(c_float), c_void_p, c_uint32, c_void_p, c_uint32, c_bool],
+    returns=None)
+
 init_ctor = _bind("bgfx_init_ctor",
              args=[POINTER(bgfx_init_t)],
              returns=None)
