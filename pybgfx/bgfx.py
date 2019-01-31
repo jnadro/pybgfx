@@ -816,6 +816,38 @@ set_vertex_buffer_name = _bind("bgfx_set_vertex_buffer_name",
 destroy_vertex_buffer = _bind("bgfx_destroy_vertex_buffer",
     args=[bgfx_vertex_buffer_handle])
 
+create_dynamic_index_buffer = _bind("bgfx_create_dynamic_index_buffer",
+    args=[c_uint32, c_uint16],
+    returns=bgfx_dynamic_index_buffer_handle)
+
+create_dynamic_index_buffer_mem = _bind("bgfx_create_dynamic_index_buffer_mem",
+    args=[POINTER(bgfx_memory), c_uint16],
+    returns=bgfx_dynamic_index_buffer_handle)
+
+update_dynamic_index_buffer = _bind("bgfx_update_dynamic_index_buffer",
+    args=[bgfx_dynamic_index_buffer_handle, c_uint32, POINTER(bgfx_memory)],
+    returns=None)
+
+destroy_dynamic_index_buffer = _bind("bgfx_destroy_dynamic_index_buffer",
+    args=[bgfx_dynamic_index_buffer_handle],
+    returns=None)
+
+create_dynamic_vertex_buffer = _bind("bgfx_create_dynamic_vertex_buffer",
+    args=[c_uint32, POINTER(vertex_decl), c_uint16],
+    returns=bgfx_dynamic_vertex_buffer_handle)
+
+create_dynamic_vertex_buffer_mem = _bind("bgfx_create_dynamic_vertex_buffer_mem",
+    args=[POINTER(bgfx_memory), POINTER(vertex_decl), c_uint16],
+    returns=bgfx_dynamic_vertex_buffer_handle)
+
+update_dynamic_vertex_buffer = _bind("bgfx_update_dynamic_vertex_buffer",
+    args=[bgfx_dynamic_vertex_buffer_handle, c_uint32, POINTER(bgfx_memory)],
+    returns=None)
+
+destroy_dynamic_vertex_buffer = _bind("bgfx_destroy_dynamic_vertex_buffer",
+    args=[bgfx_dynamic_vertex_buffer_handle],
+    returns=None)
+
 alloc_transient_buffers = _bind("bgfx_alloc_transient_buffers", [POINTER(transient_vertex_buffer),
                                 POINTER(vertex_decl), c_uint32, POINTER(transient_index_buffer),
                                 c_uint32], c_bool)
