@@ -904,9 +904,18 @@ destroy_shader = _bind("bgfx_destroy_shader",
     args=[bgfx_shader_handle],
     returns=None)
 
-create_program = _bind("bgfx_create_program", [
-                       bgfx_shader_handle, bgfx_shader_handle, c_bool], bgfx_program_handle)
-destroy_program = _bind("bgfx_destroy_program", [bgfx_program_handle])
+create_program = _bind("bgfx_create_program", 
+    args=[bgfx_shader_handle, bgfx_shader_handle, c_bool], 
+    returns=bgfx_program_handle)
+
+create_compute_program = _bind("bgfx_create_compute_program",
+    args=[bgfx_shader_handle, c_bool],
+    returns=bgfx_program_handle)
+
+destroy_program = _bind("bgfx_destroy_program", 
+    args=[bgfx_program_handle],
+    returns=None)
+
 create_uniform = _bind("bgfx_create_uniform", [c_char_p, c_uint32, c_uint16], bgfx_uniform_handle)
 destroy_uniform = _bind("bgfx_destroy_uniform", [bgfx_uniform_handle])
 set_state = _bind("bgfx_set_state", [c_uint64, c_uint32])
