@@ -25,7 +25,7 @@ class TestEnums(unittest.TestCase):
         self.assertEqual(bgfx.BGFX_RENDERER_TYPE_VULKAN.value, 8)
         self.assertEqual(bgfx.BGFX_RENDERER_TYPE_COUNT.value, 9)
 
-class TestAPI(unittest.TestCase):
+class TestInit(unittest.TestCase):
 
     def test_init(self):
         init = bgfx.bgfx_init_t()
@@ -34,6 +34,16 @@ class TestAPI(unittest.TestCase):
         result = bgfx.init(ctypes.pointer(init))
         self.assertEqual(result, True)
 
+        bgfx.shutdown()
+
+class TestAPI(unittest.TestCase):
+
+    def setUp(self):
+        init = bgfx.bgfx_init_t()
+        bgfx.init_ctor(ctypes.pointer(init))
+        bgfx.init(ctypes.pointer(init))
+
+    def tearDown(self):
         bgfx.shutdown()
 
     def test_get_supported_renderers(self):
@@ -63,7 +73,7 @@ class TestAPI(unittest.TestCase):
 
     def test_get_renderer_type(self):
         renderer_type = bgfx.get_renderer_type()
-        print(renderer_type)
+        self.assertNotEqual(renderer_type, 0)
 
 if __name__ == '__main__':
     unittest.main()
