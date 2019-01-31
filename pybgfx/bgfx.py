@@ -805,9 +805,17 @@ set_index_buffer_name = _bind("bgfx_set_index_buffer_name",
 destroy_index_buffer = _bind("bgfx_destroy_index_buffer",
     args=[bgfx_index_buffer_handle])
 
-create_vertex_buffer = _bind("bgfx_create_vertex_buffer", [POINTER(
-    bgfx_memory), POINTER(vertex_decl), c_uint16], bgfx_vertex_buffer_handle)
-destroy_vertex_buffer = _bind("bgfx_destroy_vertex_buffer", [bgfx_vertex_buffer_handle])
+create_vertex_buffer = _bind("bgfx_create_vertex_buffer", 
+    args=[POINTER(bgfx_memory), POINTER(vertex_decl), c_uint16], 
+    returns=bgfx_vertex_buffer_handle)
+
+set_vertex_buffer_name = _bind("bgfx_set_vertex_buffer_name",
+    args=[bgfx_vertex_buffer_handle, c_char_p, c_int32],
+    returns=None)
+
+destroy_vertex_buffer = _bind("bgfx_destroy_vertex_buffer",
+    args=[bgfx_vertex_buffer_handle])
+
 alloc_transient_buffers = _bind("bgfx_alloc_transient_buffers", [POINTER(transient_vertex_buffer),
                                 POINTER(vertex_decl), c_uint32, POINTER(transient_index_buffer),
                                 c_uint32], c_bool)
