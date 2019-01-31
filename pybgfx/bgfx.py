@@ -366,6 +366,10 @@ class bgfx_vertex_buffer_handle(Structure):
 class bgfx_vertex_decl_handle(Structure):
     _fields_ = [("idx", c_uint16)]
 
+RELEASEFUNC = CFUNCTYPE(None, c_void_p, c_void_p)
+
+def bgfx_release_fn(ptr, user_data):
+    return
 
 class bgfx_memory(Structure):
     _fields_ = [("data", POINTER(c_uint8)),
@@ -749,20 +753,46 @@ get_caps = _bind("bgfx_get_caps",
     args=[],
     returns=POINTER(caps))
 
-alloc = _bind("bgfx_alloc", [c_uint32], POINTER(bgfx_memory))
-copy = _bind("bgfx_copy", [c_void_p, c_uint32], POINTER(bgfx_memory))
+get_stats = _bind("bgfx_get_stats",
+    args=[],
+    returns=POINTER(bgfx_stats))
+
+alloc = _bind("bgfx_alloc",
+    args=[c_uint32],
+    returns=POINTER(bgfx_memory))
+
+copy = _bind("bgfx_copy",
+    args=[c_void_p, c_uint32],
+    returns=POINTER(bgfx_memory))
+
+make_ref = _bind("bgfx_make_ref",
+    args=[c_void_p, c_uint32],
+    returns=POINTER(bgfx_memory))
+
+make_ref_release = _bind("bgfx_make_ref_release",
+    args=[c_void_p, c_uint32, RELEASEFUNC, c_void_p],
+    returns=POINTER(bgfx_memory))
 
 set_debug = _bind("bgfx_set_debug",
-                  args=[c_uint32])
+    args=[c_uint32],
+    returns=None)
 
 dbg_text_clear = _bind("bgfx_dbg_text_clear",
-                       args=[c_uint8, c_bool])
+    args=[c_uint8, c_bool])
 
 dbg_text_printf = _bind("bgfx_dbg_text_printf",
-                        args=[c_uint16, c_uint16, c_uint8, c_void_p])
+    args=[c_uint16, c_uint16, c_uint8, c_char_p])
 
 dbg_text_image = _bind("bgfx_dbg_text_image", 
-                       args=[c_uint16, c_uint16, c_uint16, c_uint16, c_void_p, c_uint16])
+    args=[c_uint16, c_uint16, c_uint16, c_uint16, c_void_p, c_uint16])
+
+dbg_text_vprintf = _bind("bgfx_dbg_text_vprintf",
+    args=[c_uint16, c_uint16, c_uint8, c_char_p],
+    returns=None)
+
+dbg_text_image = _bind("bgfx_dbg_text_image",
+    args=[c_uint16, c_uint16, c_uint16, c_uint16, c_void_p, c_uint16],
+    returns=None)
 
 create_index_buffer = _bind("bgfx_create_index_buffer", [
                             POINTER(bgfx_memory), c_uint16], bgfx_index_buffer_handle)
