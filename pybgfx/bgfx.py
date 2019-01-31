@@ -794,10 +794,17 @@ dbg_text_image = _bind("bgfx_dbg_text_image",
     args=[c_uint16, c_uint16, c_uint16, c_uint16, c_void_p, c_uint16],
     returns=None)
 
-create_index_buffer = _bind("bgfx_create_index_buffer", [
-                            POINTER(bgfx_memory), c_uint16], bgfx_index_buffer_handle)
-destroy_index_buffer = _bind("bgfx_destroy_index_buffer", [
-                             bgfx_index_buffer_handle])
+create_index_buffer = _bind("bgfx_create_index_buffer", 
+    args=[POINTER(bgfx_memory), c_uint16], 
+    returns=bgfx_index_buffer_handle)
+
+set_index_buffer_name = _bind("bgfx_set_index_buffer_name",
+    args=[bgfx_index_buffer_handle, c_char_p, c_int32],
+    returns=None)
+
+destroy_index_buffer = _bind("bgfx_destroy_index_buffer",
+    args=[bgfx_index_buffer_handle])
+
 create_vertex_buffer = _bind("bgfx_create_vertex_buffer", [POINTER(
     bgfx_memory), POINTER(vertex_decl), c_uint16], bgfx_vertex_buffer_handle)
 destroy_vertex_buffer = _bind("bgfx_destroy_vertex_buffer", [bgfx_vertex_buffer_handle])
