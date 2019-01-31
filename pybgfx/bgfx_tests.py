@@ -34,5 +34,21 @@ class TestAPI(unittest.TestCase):
         result = bgfx.init(ctypes.pointer(init))
         self.assertEqual(result, True)
 
+        bgfx.shutdown()
+
+    def test_get_supported_renderers(self):
+        renderers = (bgfx.bgfx_renderer_type * bgfx.BGFX_RENDERER_TYPE_COUNT.value)(-1, -1, -1, -1, -1, -1, -1, -1, -1)
+        num_renderers = bgfx.get_supported_renderers(bgfx.BGFX_RENDERER_TYPE_COUNT.value, ctypes.cast(renderers, ctypes.POINTER(bgfx.bgfx_renderer_type)))
+        self.assertGreater(num_renderers, 0)
+        self.assertLessEqual(num_renderers, bgfx.BGFX_RENDERER_TYPE_COUNT.value)
+
+        for i in range(0, bgfx.BGFX_RENDERER_TYPE_COUNT.value):
+            renderer_type = renderers[i]
+            if i < num_renderers:
+                self.assertGreaterEqual(renderer_type, 0)
+                self.assertLess(renderer_type, bgfx.BGFX_RENDERER_TYPE_COUNT.value)
+            else:
+                self.assertEqual(renderer_type, -1)
+
 if __name__ == '__main__':
     unittest.main()
