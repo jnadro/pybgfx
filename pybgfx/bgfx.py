@@ -699,13 +699,17 @@ topology_convert = _bind("bgfx_topology_convert",
     args=[topology_convert, c_void_p, c_uint32, c_void_p, c_uint32, c_bool],
     returns=None)
 
+topology_sort_tri_list = _bind("bgfx_topology_sort_tri_list",
+    args=[topology_sort, c_void_p, c_uint32, POINTER(c_float), POINTER(c_float), c_void_p, c_uint32, c_void_p, c_uint32, c_bool],
+    returns=None)
+
 get_supported_renderers = _bind("bgfx_get_supported_renderers",
     args=[c_uint8, POINTER(bgfx_renderer_type)],
     returns=c_uint8)
 
-topology_sort_tri_list = _bind("bgfx_topology_sort_tri_list",
-    args=[topology_sort, c_void_p, c_uint32, POINTER(c_float), POINTER(c_float), c_void_p, c_uint32, c_void_p, c_uint32, c_bool],
-    returns=None)
+get_renderer_name = _bind("bgfx_get_renderer_name",
+    args=[bgfx_renderer_type],
+    returns=c_char_p)
 
 init_ctor = _bind("bgfx_init_ctor",
              args=[POINTER(bgfx_init_t)],

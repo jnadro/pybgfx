@@ -50,5 +50,16 @@ class TestAPI(unittest.TestCase):
             else:
                 self.assertEqual(renderer_type, -1)
 
+    def test_get_renderer_name(self):
+        self.assertEqual(bgfx.get_renderer_name(0), b'Noop')
+        self.assertEqual(bgfx.get_renderer_name(1), b'Direct3D 9')
+        self.assertEqual(bgfx.get_renderer_name(2), b'Direct3D 11')
+        self.assertEqual(bgfx.get_renderer_name(3), b'Direct3D 12')
+        self.assertEqual(bgfx.get_renderer_name(4), b'GNM')
+        self.assertEqual(bgfx.get_renderer_name(5), b'Noop')
+        self.assertEqual(bgfx.get_renderer_name(6), b'OpenGL 2.1')
+        self.assertEqual(bgfx.get_renderer_name(7), b'OpenGL 2.1')
+        self.assertEqual(bgfx.get_renderer_name(8), b'Vulkan')
+
 if __name__ == '__main__':
     unittest.main()
