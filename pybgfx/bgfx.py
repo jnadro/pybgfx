@@ -655,13 +655,29 @@ def _bind(funcname, args=None, returns=None):
     func.restype = returns
     return func
 
-vertex_decl_begin = _bind("bgfx_vertex_decl_begin", [
-                          POINTER(vertex_decl), c_uint32])
-vertex_decl_add = _bind("bgfx_vertex_decl_add", [POINTER(
-    vertex_decl), c_uint32, c_uint8, c_uint32, c_bool])
-vertex_decl_skip = _bind("bgfx_vertex_decl_skip", [
-                         POINTER(vertex_decl), c_uint8])
-vertex_decl_end = _bind("bgfx_vertex_decl_end", [POINTER(vertex_decl)])
+vertex_decl_begin = _bind("bgfx_vertex_decl_begin",
+    args=[POINTER(vertex_decl), bgfx_renderer_type],
+    returns=None)
+
+vertex_decl_add = _bind("bgfx_vertex_decl_add",
+    args=[POINTER(vertex_decl), bgfx_attrib, c_uint8, bgfx_attrib_type, c_bool, c_bool],
+    returns=None)
+
+vertex_decl_decode = _bind("bgfx_vertex_decl_decode",
+    args=[POINTER(vertex_decl), bgfx_attrib, POINTER(c_uint8), POINTER(bgfx_attrib_type), POINTER(c_bool), POINTER(c_bool)],
+    returns=None)
+
+vertex_decl_has = _bind("bgfx_vertex_decl_has",
+    args=[POINTER(vertex_decl), c_uint8],
+    returns=c_bool)
+
+vertex_decl_skip = _bind("bgfx_vertex_decl_skip",
+    args=[POINTER(vertex_decl), c_uint8],
+    returns=None)
+
+vertex_decl_end = _bind("bgfx_vertex_decl_end",
+    args=[POINTER(vertex_decl)],
+    returns=None)
 
 init_ctor = _bind("bgfx_init_ctor",
              args=[POINTER(bgfx_init_t)],
