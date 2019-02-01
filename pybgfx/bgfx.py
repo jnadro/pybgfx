@@ -1020,6 +1020,50 @@ destroy_occlusion_query = _bind("bgfx_destroy_occlusion_query",
     args=[bgfx_occlusion_query_handle],
     returns=None)
 
+set_palette_color = _bind("bgfx_set_palette_color",
+    args=[c_uint8, POINTER(c_float)],
+    returns=None)
+
+set_view_name = _bind("bgfx_set_view_name",
+    args=[bgfx_view_id, c_char_p],
+    returns=None)
+
+set_view_rect = _bind("bgfx_set_view_rect",
+    args=[bgfx_view_id, c_uint16, c_uint16, c_uint16, c_uint16],
+    returns=None)
+
+set_view_rect_auto = _bind("bgfx_set_view_rect_auto",
+    args=[bgfx_view_id, c_uint16, c_uint16, backbuffer_ratio],
+    returns=None)
+
+set_view_scissor = _bind("bgfx_set_view_scissor",
+    args=[bgfx_view_id, c_uint16, c_uint32, c_float, c_uint8],
+    returns=None)
+
+set_view_clear_mrt = _bind("bgfx_set_view_clear_mrt",
+    args=[bgfx_view_id, c_uint16, c_float, c_uint8, c_uint8, c_uint8, c_uint8, c_uint8, c_uint8, c_uint8, c_uint8, c_uint8],
+    returns=None)
+
+set_view_mode = _bind("bgfx_set_view_mode",
+    args=[bgfx_view_id, view_mode],
+    returns=None)
+
+set_view_frame_buffer = _bind("bgfx_set_view_frame_buffer",
+    args=[bgfx_view_id, bgfx_frame_buffer_handle],
+    returns=None)
+
+set_view_transform = _bind("bgfx_set_view_transform",
+    args=[bgfx_view_id, c_void_p, c_void_p],
+    returns=None)
+
+set_view_order = _bind("bgfx_set_view_order",
+    args=[bgfx_view_id, c_uint16, POINTER(bgfx_view_id)],
+    returns=None)
+
+reset_view = _bind("bgfx_reset_view",
+    args=[bgfx_view_id],
+    returns=None)
+
 set_state = _bind("bgfx_set_state", [c_uint64, c_uint32])
 set_transform = _bind("bgfx_set_transform", [c_void_p, c_uint16], c_uint32)
 set_uniform = _bind("bgfx_set_uniform", [bgfx_uniform_handle, c_void_p, c_uint16])
