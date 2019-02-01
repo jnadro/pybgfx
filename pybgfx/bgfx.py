@@ -1064,8 +1064,42 @@ reset_view = _bind("bgfx_reset_view",
     args=[bgfx_view_id],
     returns=None)
 
-set_state = _bind("bgfx_set_state", [c_uint64, c_uint32])
-set_transform = _bind("bgfx_set_transform", [c_void_p, c_uint16], c_uint32)
+set_marker = _bind("bgfx_set_marker",
+    args=[c_char_p],
+    returns=None)
+
+set_state = _bind("bgfx_set_state",
+    args=[c_uint64, c_uint32],
+    returns=None)
+
+set_condition = _bind("bgfx_set_condition",
+    args=[c_uint64, c_uint32],
+    returns=None)
+
+set_stencil = _bind("bgfx_set_stencil",
+    args=[c_uint32, c_uint32],
+    returns=None)
+
+set_scissor = _bind("bgfx_set_scissor",
+    args=[c_uint16, c_uint16, c_uint16, c_uint16],
+    returns=c_uint16)
+
+set_scissor_cache = _bind("bgfx_set_scissor_cached",
+    args=[c_uint16],
+    returns=None)
+
+set_transform = _bind("bgfx_set_transform",
+    args=[c_void_p, c_uint16],
+    returns=c_uint32)
+
+alloc_transform = _bind("bgfx_alloc_transform",
+    args=[POINTER(bgfx_transform), c_uint16],
+    returns=c_uint32)
+
+set_transform_cached = _bind("bgfx_set_transform_cached",
+    args=[c_uint32, c_uint16],
+    returns=None)
+
 set_uniform = _bind("bgfx_set_uniform", [bgfx_uniform_handle, c_void_p, c_uint16])
 set_index_buffer = _bind("bgfx_set_index_buffer", [
                          bgfx_index_buffer_handle, c_uint32, c_uint32])
