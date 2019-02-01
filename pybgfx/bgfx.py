@@ -1131,6 +1131,20 @@ set_transient_vertex_buffer = _bind("bgfx_set_transient_vertex_buffer",
 set_vertex_count = _bind("bgfx_set_vertex_count",
     args=[c_uint32],
     returns=None)
+
+set_instance_data_buffer = _bind("bgfx_set_instance_data_buffer",
+    args=[POINTER(instance_data_buffer), c_uint32, c_uint32],
+    returns=None)
+
+set_instance_data_from_vertex_buffer = _bind("bgfx_set_instance_data_from_vertex_buffer",
+    args=[bgfx_vertex_buffer_handle, c_uint32, c_uint32],
+    returns=None)
+
+set_instance_data_from_dynamic_vertex_buffer = _bind("bgfx_set_instance_data_from_dynamic_vertex_buffer",
+    args=[bgfx_dynamic_vertex_buffer_handle, c_uint32, c_uint32],
+    returns=None)
+
+
                     
 set_view_clear = _bind("bgfx_set_view_clear",
                        args=[c_uint8, c_uint16, c_uint32, c_float, c_uint8])
