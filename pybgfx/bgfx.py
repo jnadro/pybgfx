@@ -1100,21 +1100,38 @@ set_transform_cached = _bind("bgfx_set_transform_cached",
     args=[c_uint32, c_uint16],
     returns=None)
 
-set_uniform = _bind("bgfx_set_uniform", [bgfx_uniform_handle, c_void_p, c_uint16])
-set_index_buffer = _bind("bgfx_set_index_buffer", [
-                         bgfx_index_buffer_handle, c_uint32, c_uint32])
+set_uniform = _bind("bgfx_set_uniform",
+    args=[bgfx_uniform_handle, c_void_p, c_uint16],
+    returns=None)
 
-set_transient_index_buffer = _bind("bgfx_set_transient_index_buffer", [POINTER(transient_index_buffer), c_uint32, c_uint32])
+set_index_buffer = _bind("bgfx_set_index_buffer", 
+    args=[bgfx_index_buffer_handle, c_uint32, c_uint32],
+    returns=None)
 
-set_transient_vertex_buffer = _bind("bgfx_set_transient_vertex_buffer", [POINTER(transient_vertex_buffer), c_uint32, c_uint32])
+set_dynamic_index_buffer = _bind("bgfx_set_dynamic_index_buffer",
+    args=[bgfx_dynamic_index_buffer_handle, c_uint32, c_uint32],
+    returns=None)
 
-set_vertex_buffer = _bind("bgfx_set_vertex_buffer", [
-                          bgfx_vertex_buffer_handle, c_uint32, c_uint32])
+set_transient_index_buffer = _bind("bgfx_set_transient_index_buffer", 
+    args=[POINTER(transient_index_buffer), c_uint32, c_uint32],
+    returns=None)
 
-set_view_rect = _bind("bgfx_set_view_rect",
-                      args=[c_uint16, c_uint16, c_uint16, c_uint16, c_uint16],
-                      returns=None)
-                      
+set_vertex_buffer = _bind("bgfx_set_vertex_buffer", 
+    args=[c_uint8, bgfx_vertex_buffer_handle, c_uint32, c_uint32],
+    returns=None)
+
+set_dynamic_vertex_buffer = _bind("bgfx_set_dynamic_vertex_buffer",
+    args=[c_uint8, POINTER(bgfx_dynamic_vertex_buffer_handle, c_uint32, c_uint32)],
+    returns=None)
+
+set_transient_vertex_buffer = _bind("bgfx_set_transient_vertex_buffer", 
+    args=[c_uint8, POINTER(transient_vertex_buffer), c_uint32, c_uint32],
+    returns=None)
+
+set_vertex_count = _bind("bgfx_set_vertex_count",
+    args=[c_uint32],
+    returns=None)
+                    
 set_view_clear = _bind("bgfx_set_view_clear",
                        args=[c_uint8, c_uint16, c_uint32, c_float, c_uint8])
 
