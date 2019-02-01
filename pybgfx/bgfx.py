@@ -1000,8 +1000,26 @@ destroy_frame_buffer = _bind("bgfx_destroy_frame_buffer",
     args=[bgfx_frame_buffer_handle],
     returns=None)
 
-create_uniform = _bind("bgfx_create_uniform", [c_char_p, c_uint32, c_uint16], bgfx_uniform_handle)
-destroy_uniform = _bind("bgfx_destroy_uniform", [bgfx_uniform_handle])
+create_uniform = _bind("bgfx_create_uniform", 
+    args=[c_char_p, bgfx_uniform_type, c_uint16], 
+    returns=bgfx_uniform_handle)
+
+destroy_uniform = _bind("bgfx_destroy_uniform", 
+    args=[bgfx_uniform_handle],
+    returns=None)
+
+create_occlusion_query = _bind("bgfx_create_occlusion_query",
+    args=[],
+    returns=bgfx_occlusion_query_handle)
+
+get_result = _bind("bgfx_get_result",
+    args=[bgfx_occlusion_query_handle, POINTER(c_int32)],
+    returns=occlusion_query_result)
+
+destroy_occlusion_query = _bind("bgfx_destroy_occlusion_query",
+    args=[bgfx_occlusion_query_handle],
+    returns=None)
+
 set_state = _bind("bgfx_set_state", [c_uint64, c_uint32])
 set_transform = _bind("bgfx_set_transform", [c_void_p, c_uint16], c_uint32)
 set_uniform = _bind("bgfx_set_uniform", [bgfx_uniform_handle, c_void_p, c_uint16])
