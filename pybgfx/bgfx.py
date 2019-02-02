@@ -1040,6 +1040,10 @@ set_view_scissor = _bind("bgfx_set_view_scissor",
     args=[bgfx_view_id, c_uint16, c_uint32, c_float, c_uint8],
     returns=None)
 
+set_view_clear = _bind("bgfx_set_view_clear",
+    args=[bgfx_view_id, c_uint16, c_uint32, c_float, c_uint8],
+    returns=None)
+
 set_view_clear_mrt = _bind("bgfx_set_view_clear_mrt",
     args=[bgfx_view_id, c_uint16, c_float, c_uint8, c_uint8, c_uint8, c_uint8, c_uint8, c_uint8, c_uint8, c_uint8, c_uint8],
     returns=None)
