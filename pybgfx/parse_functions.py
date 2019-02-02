@@ -19,8 +19,19 @@ with open("functions.txt") as f:
 for func in functions:
     print("{} = _bind(\"{}\",".format(func.name.replace("bgfx_", ""), func.name))
     arg_string = ""
-    for arg in func.args:
-        arg_string += arg.replace("_s", "").replace("_t", "").replace("*", "") + ", "
+    for i in range(0, len(func.args)):
+        arg = func.args[i]
+        arg_type = arg.replace("_s", "").replace("_t", "")
+        if arg_type.startswith("bgfx") == False:
+            arg_type = "c_" + arg_type
+        if "*" in arg_type:
+            arg_type = "POINTER(" + arg_type.replace("*", "") + ")"
+        arg_string += arg_type
+        if i < len(func.args) - 1:
+            arg_string += ", "
     print("\targs=[{}],".format(arg_string))
-    print("\treturns=None)")
+    return_type = "None"
+    if func.restype != "void":
+        return_type = "c_" + func.restype.replace("_s", "").replace("_t", "")
+    print("\treturns={})".format(return_type))
     print("")

@@ -450,7 +450,7 @@ class vertex_decl(Structure):
                 ("attributes", c_uint16 * BGFX_ATTRIB_COUNT.value)]
 
 
-class transient_index_buffer(Structure):
+class bgfx_transient_index_buffer(Structure):
     _fields_ = [("data", POINTER(c_uint8)),
                 ("size", c_uint32),
                 ("handle", bgfx_index_buffer_handle),
@@ -465,7 +465,7 @@ class transient_vertex_buffer(Structure):
                 ("handle", bgfx_vertex_buffer_handle),
                 ("decl", bgfx_vertex_decl_handle)]
 
-class instance_data_buffer(Structure):
+class bgfx_instance_data_buffer(Structure):
     _fields_ = [
         ("data", c_uint8),
         ("size", c_uint32),
@@ -730,8 +730,8 @@ shutdown = _bind("bgfx_shutdown")
 reset = _bind("bgfx_reset",
               args=[c_uint32, c_uint32, c_uint32, bgfx_texture_format])
 
-#class bgfx_encoder(Structure):
-#    _fields_ = []
+class bgfx_encoder(Structure):
+    _fields_ = []
 
 #begin = _bind("bgfx_begin",
 #    args=[],
@@ -861,7 +861,7 @@ get_avail_instance_data_buffer = _bind("bgfx_get_avail_instance_data_buffer",
     returns=c_uint32)
 
 alloc_transient_index_buffer = _bind("bgfx_alloc_transient_index_buffer",
-    args=[POINTER(transient_index_buffer), c_uint32],
+    args=[POINTER(bgfx_transient_index_buffer), c_uint32],
     returns=None)
 
 alloc_transient_vertex_buffer = _bind("bgfx_alloc_transient_vertex_buffer",
@@ -869,11 +869,11 @@ alloc_transient_vertex_buffer = _bind("bgfx_alloc_transient_vertex_buffer",
     returns=None)
 
 alloc_transient_buffers = _bind("bgfx_alloc_transient_buffers", 
-    args=[POINTER(transient_vertex_buffer), POINTER(vertex_decl), c_uint32, POINTER(transient_index_buffer), c_uint32], 
+    args=[POINTER(transient_vertex_buffer), POINTER(vertex_decl), c_uint32, POINTER(bgfx_transient_index_buffer), c_uint32], 
     returns=c_bool)
 
 alloc_instance_data_buffer = _bind("bgfx_alloc_instance_data_buffer",
-    args=[POINTER(instance_data_buffer), c_uint32, c_uint16],
+    args=[POINTER(bgfx_instance_data_buffer), c_uint32, c_uint16],
     returns=None)
 
 create_indirect_buffer = _bind("bgfx_create_indirect_buffer",
@@ -1113,7 +1113,7 @@ set_dynamic_index_buffer = _bind("bgfx_set_dynamic_index_buffer",
     returns=None)
 
 set_transient_index_buffer = _bind("bgfx_set_transient_index_buffer", 
-    args=[POINTER(transient_index_buffer), c_uint32, c_uint32],
+    args=[POINTER(bgfx_transient_index_buffer), c_uint32, c_uint32],
     returns=None)
 
 set_vertex_buffer = _bind("bgfx_set_vertex_buffer", 
@@ -1121,7 +1121,7 @@ set_vertex_buffer = _bind("bgfx_set_vertex_buffer",
     returns=None)
 
 set_dynamic_vertex_buffer = _bind("bgfx_set_dynamic_vertex_buffer",
-    args=[c_uint8, POINTER(bgfx_dynamic_vertex_buffer_handle, c_uint32, c_uint32)],
+    args=[c_uint8, POINTER(bgfx_dynamic_vertex_buffer_handle), c_uint32, c_uint32],
     returns=None)
 
 set_transient_vertex_buffer = _bind("bgfx_set_transient_vertex_buffer", 
@@ -1133,7 +1133,7 @@ set_vertex_count = _bind("bgfx_set_vertex_count",
     returns=None)
 
 set_instance_data_buffer = _bind("bgfx_set_instance_data_buffer",
-    args=[POINTER(instance_data_buffer), c_uint32, c_uint32],
+    args=[POINTER(bgfx_instance_data_buffer), c_uint32, c_uint32],
     returns=None)
 
 set_instance_data_from_vertex_buffer = _bind("bgfx_set_instance_data_from_vertex_buffer",
@@ -1141,23 +1141,216 @@ set_instance_data_from_vertex_buffer = _bind("bgfx_set_instance_data_from_vertex
     returns=None)
 
 set_instance_data_from_dynamic_vertex_buffer = _bind("bgfx_set_instance_data_from_dynamic_vertex_buffer",
-    args=[bgfx_dynamic_vertex_buffer_handle, c_uint32, c_uint32],
-    returns=None)
+	args=[bgfx_dynamic_vertex_buffer_handle, c_uint32, c_uint32],
+	returns=None)
 
+set_instance_count = _bind("bgfx_set_instance_count",
+	args=[c_uint32],
+	returns=None)
 
-                    
-set_view_clear = _bind("bgfx_set_view_clear",
-                       args=[c_uint8, c_uint16, c_uint32, c_float, c_uint8])
-
-set_view_transform = _bind("bgfx_set_view_transform", [
-                           c_uint8, c_void_p, c_void_p])
+set_texture = _bind("bgfx_set_texture",
+	args=[c_uint8, bgfx_uniform_handle, bgfx_texture_handle, c_uint32],
+	returns=None)
 
 touch = _bind("bgfx_touch",
-              args=[c_uint16],
-              returns=None)
+	args=[bgfx_view_id],
+	returns=None)
 
-submit = _bind("bgfx_submit", [c_uint8, bgfx_program_handle, c_int], c_uint32)
+submit = _bind("bgfx_submit",
+	args=[bgfx_view_id, bgfx_program_handle, c_uint32, c_bool],
+	returns=None)
 
+submit_occlusion_query = _bind("bgfx_submit_occlusion_query",
+	args=[bgfx_view_id, bgfx_program_handle, bgfx_occlusion_query_handle, c_uint32, c_bool],
+	returns=None)
+
+submit_indirect = _bind("bgfx_submit_indirect",
+	args=[bgfx_view_id, bgfx_program_handle, bgfx_indirect_buffer_handle, c_uint16, c_uint16, c_uint32, c_bool],
+	returns=None)
+
+set_image = _bind("bgfx_set_image",
+	args=[c_uint8, bgfx_texture_handle, c_uint8, bgfx_access, bgfx_texture_format],
+	returns=None)
+
+set_compute_index_buffer = _bind("bgfx_set_compute_index_buffer",
+	args=[c_uint8, bgfx_index_buffer_handle, bgfx_access],
+	returns=None)
+
+set_compute_vertex_buffer = _bind("bgfx_set_compute_vertex_buffer",
+	args=[c_uint8, bgfx_vertex_buffer_handle, bgfx_access],
+	returns=None)
+
+set_compute_dynamic_index_buffer = _bind("bgfx_set_compute_dynamic_index_buffer",
+	args=[c_uint8, bgfx_dynamic_index_buffer_handle, bgfx_access],
+	returns=None)
+
+set_compute_dynamic_vertex_buffer = _bind("bgfx_set_compute_dynamic_vertex_buffer",
+	args=[c_uint8, bgfx_dynamic_vertex_buffer_handle, bgfx_access],
+	returns=None)
+
+set_compute_indirect_buffer = _bind("bgfx_set_compute_indirect_buffer",
+	args=[c_uint8, bgfx_indirect_buffer_handle, bgfx_access],
+	returns=None)
+
+dispatch = _bind("bgfx_dispatch",
+	args=[bgfx_view_id, bgfx_program_handle, c_uint32, c_uint32, c_uint32],
+	returns=None)
+
+dispatch_indirect = _bind("bgfx_dispatch_indirect",
+	args=[bgfx_view_id, bgfx_program_handle, bgfx_indirect_buffer_handle, c_uint16, c_uint16],
+	returns=None)
+
+discard = _bind("bgfx_discard",
+	args=[c_void_p],
+	returns=None)
+
+blit = _bind("bgfx_blit",
+	args=[bgfx_view_id, bgfx_texture_handle, c_uint8, c_uint16, c_uint16, c_uint16, bgfx_texture_handle, c_uint8, c_uint16, c_uint16, c_uint16, c_uint16, c_uint16, c_uint16],
+	returns=None)
+
+encoder_set_marker = _bind("bgfx_encoder_set_marker",
+	args=[POINTER(bgfx_encoder), POINTER(c_char)],
+	returns=None)
+
+encoder_set_state = _bind("bgfx_encoder_set_state",
+	args=[POINTER(bgfx_encoder), c_uint64, c_uint32],
+	returns=None)
+
+encoder_set_condition = _bind("bgfx_encoder_set_condition",
+	args=[POINTER(bgfx_encoder), bgfx_occlusion_query_handle, c_bool],
+	returns=None)
+
+encoder_set_stencil = _bind("bgfx_encoder_set_stencil",
+	args=[POINTER(bgfx_encoder), c_uint32, c_uint32],
+	returns=None)
+
+encoder_set_scissor = _bind("bgfx_encoder_set_scissor",
+	args=[POINTER(bgfx_encoder), c_uint16, c_uint16, c_uint16, c_uint16],
+	returns=c_uint16)
+
+encoder_set_scissor_cached = _bind("bgfx_encoder_set_scissor_cached",
+	args=[POINTER(bgfx_encoder), c_uint16],
+	returns=None)
+
+encoder_set_transform = _bind("bgfx_encoder_set_transform",
+	args=[POINTER(bgfx_encoder), POINTER(c_void_p), c_uint16],
+	returns=c_uint32)
+
+encoder_alloc_transform = _bind("bgfx_encoder_alloc_transform",
+	args=[POINTER(bgfx_encoder), POINTER(bgfx_transform), c_uint16],
+	returns=c_uint32)
+
+encoder_set_transform_cached = _bind("bgfx_encoder_set_transform_cached",
+	args=[POINTER(bgfx_encoder), c_uint32, c_uint16],
+	returns=None)
+
+encoder_set_uniform = _bind("bgfx_encoder_set_uniform",
+	args=[POINTER(bgfx_encoder), bgfx_uniform_handle, POINTER(c_void_p), c_uint16],
+	returns=None)
+
+encoder_set_index_buffer = _bind("bgfx_encoder_set_index_buffer",
+	args=[POINTER(bgfx_encoder), bgfx_index_buffer_handle, c_uint32, c_uint32],
+	returns=None)
+
+encoder_set_dynamic_index_buffer = _bind("bgfx_encoder_set_dynamic_index_buffer",
+	args=[POINTER(bgfx_encoder), bgfx_dynamic_index_buffer_handle, c_uint32, c_uint32],
+	returns=None)
+
+encoder_set_transient_index_buffer = _bind("bgfx_encoder_set_transient_index_buffer",
+	args=[POINTER(bgfx_encoder), POINTER(bgfx_transient_index_buffer), c_uint32, c_uint32],
+	returns=None)
+
+encoder_set_vertex_buffer = _bind("bgfx_encoder_set_vertex_buffer",
+	args=[POINTER(bgfx_encoder), c_uint8, bgfx_vertex_buffer_handle, c_uint32, c_uint32],
+	returns=None)
+
+encoder_set_dynamic_vertex_buffer = _bind("bgfx_encoder_set_dynamic_vertex_buffer",
+	args=[POINTER(bgfx_encoder), c_uint8, bgfx_dynamic_vertex_buffer_handle, c_uint32, c_uint32],
+	returns=None)
+
+encoder_set_transient_vertex_buffer = _bind("bgfx_encoder_set_transient_vertex_buffer",
+	args=[POINTER(bgfx_encoder), c_uint8, POINTER(bgfx_transient_index_buffer), c_uint32, c_uint32],
+	returns=None)
+
+encoder_set_vertex_count = _bind("bgfx_encoder_set_vertex_count",
+	args=[POINTER(bgfx_encoder), c_uint32],
+	returns=None)
+
+encoder_set_instance_data_buffer = _bind("bgfx_encoder_set_instance_data_buffer",
+	args=[POINTER(bgfx_encoder), POINTER(bgfx_instance_data_buffer), c_uint32, c_uint32],
+	returns=None)
+
+encoder_set_instance_data_from_vertex_buffer = _bind("bgfx_encoder_set_instance_data_from_vertex_buffer",
+	args=[POINTER(bgfx_encoder), bgfx_vertex_buffer_handle, c_uint32, c_uint32],
+	returns=None)
+
+encoder_set_instance_data_from_dynamic_vertex_buffer = _bind("bgfx_encoder_set_instance_data_from_dynamic_vertex_buffer",
+	args=[POINTER(bgfx_encoder), bgfx_dynamic_vertex_buffer_handle, c_uint32, c_uint32],
+	returns=None)
+
+encoder_set_texture = _bind("bgfx_encoder_set_texture",
+	args=[POINTER(bgfx_encoder), c_uint8, bgfx_uniform_handle, bgfx_texture_handle, c_uint32],
+	returns=None)
+
+encoder_touch = _bind("bgfx_encoder_touch",
+	args=[POINTER(bgfx_encoder), bgfx_view_id],
+	returns=None)
+
+encoder_submit = _bind("bgfx_encoder_submit",
+	args=[POINTER(bgfx_encoder), bgfx_view_id, bgfx_program_handle, c_uint32, c_bool],
+	returns=None)
+
+encoder_submit_occlusion_query = _bind("bgfx_encoder_submit_occlusion_query",
+	args=[POINTER(bgfx_encoder), bgfx_view_id, bgfx_program_handle, bgfx_occlusion_query_handle, c_uint32, c_bool],
+	returns=None)
+
+encoder_submit_indirect = _bind("bgfx_encoder_submit_indirect",
+	args=[POINTER(bgfx_encoder), bgfx_view_id, bgfx_program_handle, bgfx_indirect_buffer_handle, c_uint16, c_uint16, c_uint32, c_bool],
+	returns=None)
+
+encoder_set_image = _bind("bgfx_encoder_set_image",
+	args=[POINTER(bgfx_encoder), c_uint8, bgfx_texture_handle, c_uint8, bgfx_access, bgfx_texture_format],
+	returns=None)
+
+encoder_set_compute_index_buffer = _bind("bgfx_encoder_set_compute_index_buffer",
+	args=[POINTER(bgfx_encoder), c_uint8, bgfx_index_buffer_handle, bgfx_access],
+	returns=None)
+
+encoder_set_compute_vertex_buffer = _bind("bgfx_encoder_set_compute_vertex_buffer",
+	args=[POINTER(bgfx_encoder), c_uint8, bgfx_vertex_buffer_handle, bgfx_access],
+	returns=None)
+
+encoder_set_compute_dynamic_index_buffer = _bind("bgfx_encoder_set_compute_dynamic_index_buffer",
+	args=[POINTER(bgfx_encoder), c_uint8, bgfx_dynamic_index_buffer_handle, bgfx_access],
+	returns=None)
+
+encoder_set_compute_dynamic_vertex_buffer = _bind("bgfx_encoder_set_compute_dynamic_vertex_buffer",
+	args=[POINTER(bgfx_encoder), c_uint8, bgfx_dynamic_vertex_buffer_handle, bgfx_access],
+	returns=None)
+
+encoder_set_compute_indirect_buffer = _bind("bgfx_encoder_set_compute_indirect_buffer",
+	args=[POINTER(bgfx_encoder), c_uint8, bgfx_indirect_buffer_handle, bgfx_access],
+	returns=None)
+
+encoder_dispatch = _bind("bgfx_encoder_dispatch",
+	args=[POINTER(bgfx_encoder), bgfx_view_id, bgfx_program_handle, c_uint32, c_uint32, c_uint32],
+	returns=None)
+
+encoder_dispatch_indirect = _bind("bgfx_encoder_dispatch_indirect",
+	args=[POINTER(bgfx_encoder), bgfx_view_id, bgfx_program_handle, bgfx_indirect_buffer_handle, c_uint16, c_uint16],
+	returns=None)
+
+encoder_discard = _bind("bgfx_encoder_discard",
+	args=[POINTER(bgfx_encoder)],
+	returns=None)
+
+encoder_blit = _bind("bgfx_encoder_blit",
+	args=[POINTER(bgfx_encoder), bgfx_view_id, bgfx_texture_handle, c_uint8, c_uint16, c_uint16, c_uint16, bgfx_texture_handle, c_uint8, c_uint16, c_uint16, c_uint16, c_uint16, c_uint16, c_uint16],
+	returns=None)
+
+request_screen_shot = _bind("bgfx_request_screen_shot",
+	args=[bgfx_frame_buffer_handle, POINTER(c_char)],
+	returns=None)
 
 class BGFX_PLATFORM_DATA(Structure):
     _fields_ = [("ndt", c_void_p),
