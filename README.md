@@ -108,6 +108,16 @@ Building bgfx is straight forward on windows.  Detailed instructions are [here](
 3. ```start .build\projects\vs2017\bgfx.sln```
 4. Pick **Release** and **x64** and build the whole solution.
 
+Debugging
+---------
+
+Sometimes it is necessary to have to debug the bindings to see how the data is being passed between Python and C.  [This](https://docs.microsoft.com/en-us/visualstudio/python/debugging-mixed-mode-c-cpp-python-in-visual-studio?view=vs-2017) article shows how to do mixed mode debugging in Visual Studio.
+
+1. Build debug versions of the bgfx dll.  Place **bgfx-shared-libDebug.dll** and **bgfx-shared-libDebug.pdb** in the pybgfx/pybgfx directory.
+2. Setup a python project in visual studio.
+
+todo: fillout more details and set up an example project.
+
 Deployment
 ----------
 
