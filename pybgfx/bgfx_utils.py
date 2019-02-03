@@ -2,6 +2,8 @@
 
 from ctypes import cast, c_void_p
 
+import pybgfx as bgfx
+
 runtimeDir = "../runtime/"
 
 
@@ -19,11 +21,11 @@ def loadShader(shaderName):
     shaderPath = "shaders/dx9/"
     rendererType = bgfx.get_renderer_type()
     shaderPath = {
-        bgfx.BGFX_RENDERER_TYPE_DIRECT3D11: "shaders/dx11/",
-        bgfx.BGFX_RENDERER_TYPE_DIRECT3D12: "shaders/dx11/",
-        bgfx.BGFX_RENDERER_TYPE_OPENGL: "shaders/glsl/",
-        bgfx.BGFX_RENDERER_TYPE_METAL: "shaders/metal/",
-        bgfx.BGFX_RENDERER_TYPE_OPENGLES: "shaders/gles/",
+        bgfx.BGFX_RENDERER_TYPE_DIRECT3D11.value: "shaders/dx11/",
+        bgfx.BGFX_RENDERER_TYPE_DIRECT3D12.value: "shaders/dx11/",
+        bgfx.BGFX_RENDERER_TYPE_OPENGL.value: "shaders/glsl/",
+        bgfx.BGFX_RENDERER_TYPE_METAL.value: "shaders/metal/",
+        bgfx.BGFX_RENDERER_TYPE_OPENGLES.value: "shaders/gles/",
     }.get(rendererType, "shaders/dx9/")
     filePath = shaderPath + shaderName + ".bin"
     fileMemory = loadMem(filePath)
