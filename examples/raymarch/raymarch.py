@@ -1,6 +1,8 @@
 import ctypes
 import pybgfx as bgfx
 
+def render_screen_space_quad(view, program, x, y, width, height):
+    pass
 
 class PosColorTexCoord0Vertex(ctypes.Structure):
     _fields_ = [
@@ -42,14 +44,31 @@ class Raymarch(bgfx.App):
                              2, bgfx.BGFX_ATTRIB_TYPE_FLOAT, False, False)
         bgfx.vertex_decl_end(self.ms_decl)
 
+        # Create uniforms
+        self.u_mtx = bgfx.create_uniform("u_mtx", bgfx.BGFX_UNIFORM_TYPE_MAT4, 1)
+        self.u_light_dir_time = bgfx.create_uniform("u_lightDirTime", bgfx.BGFX_UNIFORM_TYPE_VEC4, 1)
+
+        # Create program from shaders
+        self.m_program = bgfx.loadProgram("vs_raymarching", "fs_raymarching")
+
     def shutdown(self):
+        bgfx.destroy_program(self.m_program)
+        bgfx.destroy_uniform(self.u_mtx)
+        bgfx.destroy_uniform(self.u_light_dir_time)
+
         bgfx.shutdown()
 
     def update(self, dt):
         bgfx.set_view_rect(0, 0, 0, self.width, self.height)
+        bgfx.set_view_rect(1, 0, 0, self.width, self.height)
+
         bgfx.touch(0)
+
+        render_screen_space_quad(1, self.m_program, 0.0, 0.0, self.width, self.height)
+
         bgfx.dbg_text_clear(0, False)
         bgfx.dbg_text_printf(0, 1, 0x4f, self.title)
+
         bgfx.frame(False)
 
 app = Raymarch(1280, 720, b"pybgfx/examples/raymarch")
