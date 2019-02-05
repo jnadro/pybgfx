@@ -106,10 +106,7 @@ class Cubes(bgfx.App):
         up = (c_float * 3)(*[0.0, 1.0, 0.0])
 
         view = matrix.look_at(eye, at, up)
-        proj = (c_float * 16)(*[0.974278629, 0.0, 0.0, 0.0,
-                                0.0, 1.73205090, 0.0, 0.0,
-                                0.0, -0.0, 1.00100100, 1.0,
-                                0.0, 0.0, -0.100100100, 0.0])
+        proj = matrix.proj(60.0, self.width / self.height, 0.1, 100.0)
 
         bgfx.set_view_transform(0, view, proj)
 

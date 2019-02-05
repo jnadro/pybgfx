@@ -39,8 +39,18 @@ def look_at(eye, at, up):
 
     return view
 
-def proj(mtx, fov_y, aspect, near, far):
-    pass
+def proj(fov_y, aspect, near, far):
+    height = 1.0 / math.tan(math.radians(fov_y) * 0.5)
+    width = height * 1.0 / aspect
+    diff = far - near
+    aa = far / diff
+    bb = near * aa
+
+    proj = (ctypes.c_float * 16)(*[width, 0.0, 0.0, 0.0,
+                                   0.0, height, 0.0, 0.0,
+                                   0.0, 0.0, aa, 1.0,
+                                   0.0, 0.0, -bb, 0.0])
+    return proj
 
 def ortho(mtx, left, right, bottom, top, near, far):
     pass
@@ -57,7 +67,7 @@ def rotate_xy(mtx, rot_x, rot_y):
     mtx[4] = sx*sy
     mtx[5] = cx
     mtx[6] = -sx*cy
-    mtx[8] = -cx*sy;
+    mtx[8] = -cx*sy
     mtx[9] = sx
     mtx[10] = cx*cy
     mtx[15] = 1.0
