@@ -5,6 +5,9 @@ import numpy as np
 def sub(v1, v2):
     return [v1[0] - v2[0], v1[1] - v2[1], v1[2] - v2[2]]
 
+def mul(m1, m2):
+    pass
+
 def cross(v1, v2):
     v1x = v1[0] 
     v1y = v1[1]
@@ -46,14 +49,23 @@ def proj(fov_y, aspect, near, far):
     aa = far / diff
     bb = near * aa
 
-    proj = (ctypes.c_float * 16)(*[width, 0.0, 0.0, 0.0,
+    return (ctypes.c_float * 16)(*[width, 0.0, 0.0, 0.0,
                                    0.0, height, 0.0, 0.0,
                                    0.0, 0.0, aa, 1.0,
                                    0.0, 0.0, -bb, 0.0])
-    return proj
 
-def ortho(mtx, left, right, bottom, top, near, far):
-    pass
+def ortho(left, right, bottom, top, near, far):
+    aa = 2.0 / (right - left);
+    bb = 2.0 / (top - bottom);
+    cc = 1.0 / (far - near);
+    dd = (left + right)/(left - right);
+    ee = (top + bottom)/(bottom - top);
+    ff = near / (near - far);
+
+    return (ctypes.c_float * 16)(*[aa, 0.0, 0.0, 0.0,
+                                   0.0, bb, 0.0, 0.0,
+                                   0.0, 0.0, cc, 0.0,
+                                   dd, ee, ff, 1.0])
 
 def rotate_xy(mtx, rot_x, rot_y):
     sx = math.sin(rot_x)

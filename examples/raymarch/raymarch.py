@@ -1,8 +1,6 @@
 import ctypes
 import pybgfx as bgfx
-
-def render_screen_space_quad(view, program, x, y, width, height):
-    pass
+import matrix
 
 class PosColorTexCoord0Vertex(ctypes.Structure):
     _fields_ = [
@@ -50,6 +48,8 @@ class Raymarch(bgfx.App):
 
         # Create program from shaders
         self.m_program = bgfx.loadProgram("vs_raymarching", "fs_raymarching")
+        self.elapsed_time = 0.0
+
 
     def shutdown(self):
         bgfx.destroy_program(self.m_program)
@@ -58,11 +58,60 @@ class Raymarch(bgfx.App):
 
         bgfx.shutdown()
 
+    def render_screen_space_quad(self, view, program, x, y, width, height):
+        tvb = bgfx.transient_vertex_buffer()
+        tib = bgfx.bgfx_transient_index_buffer()
+
+        if bgfx.alloc_transient_buffers(ctypes.pointer(tvb), ctypes.pointer(self.ms_decl), 4, ctypes.pointer(tib), 6):
+            vertex = ctypes.cast(tvb.data, ctypes.POINTER(PosColorTexCoord0Vertex))
+
+            zz = 0.0
+
+            minx = x
+            maxx = x + width
+            miny = y
+            maxy = y + height
+
+            minu = -1.0, minv = -1.0, maxu = 1.0, maxv = 1.0
+
+
+
+            bgfx.set_state(bgfx.BGFX_STATE_DEFAULT)
+            bgfx.set_index_buffer(tib)
+            bgfx.set_vertex_buffer(0, tvb)
+            bgfx.submit(view, self.m_program)
+
     def update(self, dt):
+        self.elapsed_time += dt
+
         bgfx.set_view_rect(0, 0, 0, self.width, self.height)
         bgfx.set_view_rect(1, 0, 0, self.width, self.height)
 
         bgfx.touch(0)
+
+        at = (ctypes.c_float * 3)(*[0.0, 0.0, 0.0])
+        eye = (ctypes.c_float * 3)(*[0.0, 0.0, -15.0])
+        up = (ctypes.c_float * 3)(*[0.0, 1.0, 0.0])
+
+        view = matrix.look_at(eye, at, up)
+        proj = matrix.proj(60.0, self.width / self.height, 0.1, 100.0)
+
+        ortho = matrix.ortho(0., self.width, self.height, 0.0, 0.0, 100.0, 0.0)
+
+        NULL = ctypes.POINTER(ctypes.c_void_p)()
+        bgfx.set_view_transform(1, NULL, ortho)
+
+        mtx_inv = (ctypes.c_float * 16)(*[1.0, 0.0, 0.0, 0.0,
+                                           0.0, 1.0, 0.0, 0.0,
+                                           0.0, 0.0, 1.0, 0.0,
+                                           0.0, 0.0, 0.0, 1.0])
+        matrix.rotate_xy(mtx_inv, self.elapsed_time, self.elapsed_time + 0.37)
+
+        light_dir_model = matrix.normalize()
+        light_dir_time = (ctypes.c_float * 3)(*[0.0, 0.0, 0.0])
+        bgfx.set_uniform(self.u_light_dir_time, light_dir_time, 1)
+
+        bgfx.set_uniform(self.u_mtx, inv_mvp, 1)
 
         render_screen_space_quad(1, self.m_program, 0.0, 0.0, self.width, self.height)
 
