@@ -1,4 +1,5 @@
 from ctypes import Structure, c_float, c_int, c_uint8, c_uint16, c_uint32, c_uint64, POINTER, pointer, byref, cast, sizeof, c_void_p, byref
+import numpy as np
 import time
 
 import pybgfx as bgfx
@@ -23,21 +24,20 @@ s_cubeVertices = (PosColorVertex * num_vertices)(
     PosColorVertex(1.0, -1.0, -1.0, 0xffffffff),
 )
 
-num_indices = 36
-s_cubeIndices = (c_uint16 * num_indices)(
-    *[0, 1, 2,  # 0
-        1, 3, 2,
-        4, 6, 5,  # 2
-        5, 6, 7,
-        0, 2, 4,  # 4
-        4, 2, 6,
-        1, 5, 3,  # 6
-        5, 7, 3,
-        0, 4, 1,  # 8
-        4, 5, 1,
-        2, 3, 6,  # 10
-        6, 3, 7])
-
+cube_indices = np.array([
+    0, 1, 2,  # 0
+    1, 3, 2,
+    4, 6, 5,  # 2
+    5, 6, 7,
+    0, 2, 4,  # 4
+    4, 2, 6,
+    1, 5, 3,  # 6
+    5, 7, 3,
+    0, 4, 1,  # 8
+    4, 5, 1,
+    2, 3, 6,  # 10
+    6, 3, 7
+], dtype=np.uint16)
 
 class Cubes(bgfx.App):
 
@@ -78,8 +78,7 @@ class Cubes(bgfx.App):
             vb_memory, byref(self.ms_decl), bgfx.BGFX_BUFFER_NONE)
 
         # Create static index buffer
-        ib_memory = bgfx.copy(cast(s_cubeIndices, c_void_p),
-                              sizeof(c_uint16) * num_indices)
+        ib_memory = bgfx.copy(cube_indices.ctypes.data_as(POINTER(c_void_p)), cube_indices.nbytes)
         self.m_ibh = bgfx.create_index_buffer(ib_memory, bgfx.BGFX_BUFFER_NONE)
 
         # Create program from shaders.
@@ -132,7 +131,7 @@ class Cubes(bgfx.App):
 
                 # Set vertex and index buffer.
                 bgfx.set_vertex_buffer(0, self.m_vbh, 0, num_vertices)
-                bgfx.set_index_buffer(self.m_ibh, 0, num_indices)
+                bgfx.set_index_buffer(self.m_ibh, 0, cube_indices.size)
 
                 bgfx.set_state(bgfx.BGFX_STATE_DEFAULT, 0)
 
