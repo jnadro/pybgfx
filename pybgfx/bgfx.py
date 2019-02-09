@@ -1092,9 +1092,12 @@ set_scissor_cache = _bind("bgfx_set_scissor_cached",
     args=[c_uint16],
     returns=None)
 
-set_transform = _bind("bgfx_set_transform",
+_set_transform = _bind("bgfx_set_transform",
     args=[c_void_p, c_uint16],
     returns=c_uint32)
+
+def set_transform(mtx, count):
+    return _set_transform(mtx.ctypes.data_as(POINTER(c_void_p)), 1)
 
 alloc_transform = _bind("bgfx_alloc_transform",
     args=[POINTER(bgfx_transform), c_uint16],

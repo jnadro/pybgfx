@@ -123,7 +123,7 @@ class Cubes(bgfx.App):
                 mtx[3, 0] = -15.0 + xx * 3.0
                 mtx[3, 1] = -15.0 + yy * 3.0
                 mtx[3, 2] = 0.0
-                bgfx.set_transform(mtx.ctypes.data_as(POINTER(c_void_p)), 1)
+                bgfx.set_transform(mtx, 1)
 
                 # Set vertex and index buffer.
                 bgfx.set_vertex_buffer(0, self.m_vbh, 0, num_vertices)
