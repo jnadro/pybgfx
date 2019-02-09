@@ -67,19 +67,14 @@ def ortho(left, right, bottom, top, near, far):
                                    0.0, 0.0, cc, 0.0,
                                    dd, ee, ff, 1.0])
 
-def rotate_xy(mtx, rot_x, rot_y):
-    sx = math.sin(rot_x)
-    cx = math.cos(rot_x)
-    sy = math.sin(rot_y)
-    cy = math.cos(rot_y)
+def rotate_xy(rot_x, rot_y):
+    sx, cx = np.sin(rot_x), np.cos(rot_x)
+    sy, cy = np.sin(rot_y), np.cos(rot_y)
 
-    mtx[0] = cy
-    mtx[0] = cy
-    mtx[2] = sy
-    mtx[4] = sx*sy
-    mtx[5] = cx
-    mtx[6] = -sx*cy
-    mtx[8] = -cx*sy
-    mtx[9] = sx
-    mtx[10] = cx*cy
-    mtx[15] = 1.0
+    return np.array(
+        ((cy, 0.0, sy, 0.0),
+        (sx * sy, cx, -sx * cy, 0.0),
+        (-cx * sy, sx, cx * cy, 0.0),
+        (0.0, 0.0, 0.0, 1.0)),
+        dtype = np.float32
+        )

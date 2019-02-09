@@ -119,15 +119,11 @@ class Cubes(bgfx.App):
         for yy in range(0, 11):
             for xx in range(0, 11):
 
-                mtx = (c_float * 16)(*[1.0, 0.0, 0.0, 0.0,
-                                       0.0, 1.0, 0.0, 0.0,
-                                       0.0, 0.0, 1.0, 0.0,
-                                       0.0, 0.0, 0.0, 1.0])
-                matrix.rotate_xy(mtx, self.elapsed_time + xx*0.21, self.elapsed_time + yy*0.37)
-                mtx[12] = -15.0 + xx*3.0
-                mtx[13] = -15.0 + yy*3.0
-                mtx[14] = 0.0
-                bgfx.set_transform(mtx, 1)
+                mtx = matrix.rotate_xy(self.elapsed_time + xx * 0.21, self.elapsed_time + yy * 0.37)
+                mtx[3, 0] = -15.0 + xx * 3.0
+                mtx[3, 1] = -15.0 + yy * 3.0
+                mtx[3, 2] = 0.0
+                bgfx.set_transform(mtx.ctypes.data_as(POINTER(c_void_p)), 1)
 
                 # Set vertex and index buffer.
                 bgfx.set_vertex_buffer(0, self.m_vbh, 0, num_vertices)
