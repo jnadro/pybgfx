@@ -10,3 +10,6 @@
 [submodule "src/bimg"]
 	path = src/bimg
 	url = git://github.com/bkaradzic/bimg.git
+[submodule "src/brtshaderc"]
+	path = src/brtshaderc
+	url = https://github.com/jnadro/brtshaderc
